@@ -4,6 +4,7 @@ namespace Controller;
 use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
+use Model\Entities\Post;
 use Model\Entities\Topic;
 use Model\Managers\CategoryManager;
 use Model\Managers\PostManager;
@@ -73,7 +74,11 @@ class ForumController extends AbstractController implements ControllerInterface{
         // var_dump($test);
         if (isset($_POST['submitNewPost'])) {
             # data traitements if error all data in $data
-            var_dump($_POST);die;
+            $data["post"]["message"]=filter_input(INPUT_POST,'message',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            
+
+            var_dump($data);die;
         }
         
         return [

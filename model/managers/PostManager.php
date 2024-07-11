@@ -26,4 +26,21 @@ class PostManager extends Manager{
             $this->className
         );
     }
+
+    public function insertData(array $data){
+        $sql = "
+            INSERT INTO post (
+            id_post,
+            message,
+            topic_id,
+            user_id,
+            ) VALUES (
+            :id_post,
+            :message,
+            :topic_id,
+            :user_id,
+            );
+        ";
+
+    }
 }
