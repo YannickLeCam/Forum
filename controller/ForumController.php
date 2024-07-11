@@ -61,5 +61,27 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
+
+
+    // $id is topic id
+    public function newPost($id){
+
+        $topicManager = new TopicManager();
+        $topic = $topicManager->findOneById($id);
+        $data=[];
+        if (isset($_POST['submitNewPost'])) {
+            # data traitements if error all data in $data
+            var_dump($_POST);die;
+        }
+        
+        return [
+            "view" => VIEW_DIR."forum/newPost.php",
+            "meta_description"=>"Edition d'un nouveau post sur le topic : " .$topic,
+            "data" => [
+                "topic"=>$topic,
+                "data"=>$data
+            ]
+        ];
+    }
     
 }

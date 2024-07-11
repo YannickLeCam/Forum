@@ -1,6 +1,7 @@
 <h1>Inscription</h1>
 
 <form action="./index.php?ctrl=security&action=register" method="post">
+    
     <div class="form-floating mb-3">
         <input type="text" class="form-control" id="floatingInputPseudo" placeholder="Pseudo">
         <label for="floatingInputPseudo">Pseudo</label>

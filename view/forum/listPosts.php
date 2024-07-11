@@ -11,3 +11,5 @@ foreach($posts as $post ){ ?>
     <li>message : <?=$post->getMessage()?></li>
     <br>
 <?php }?>
+
+<a href="index.php?ctrl=forum&action=newPost&id=<?= $topic->getId() ?>">Ajouter un post</a>
