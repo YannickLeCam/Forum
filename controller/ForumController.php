@@ -69,6 +69,8 @@ class ForumController extends AbstractController implements ControllerInterface{
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
         $data=[];
+
+        // var_dump($test);
         if (isset($_POST['submitNewPost'])) {
             # data traitements if error all data in $data
             var_dump($_POST);die;

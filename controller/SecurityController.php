@@ -9,6 +9,7 @@ class SecurityController extends AbstractController{
 
     public function register () {
         if (isset($_POST['submitRegister'])) {
+            filter_input(INPUT_POST,'nickName',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             var_dump($_POST);die;
         }
         return [
