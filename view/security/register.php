@@ -7,7 +7,7 @@
         <label for="floatingInputPseudo">Pseudo</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="email" class="form-control" name="e-mail" id="floatingInputMail" placeholder="name@example.com">
+        <input type="email" class="form-control" name="email" id="floatingInputMail" placeholder="name@example.com">
         <label for="floatingInputMail">Email address</label>
     </div>
     <div class="form-floating mb-3">

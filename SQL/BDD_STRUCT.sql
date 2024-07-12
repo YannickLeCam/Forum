@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forumlecam.category : ~4 rows (environ)
-INSERT INTO `category` (`id_category`, `name`) VALUES
+INSERT IGNORE INTO `category` (`id_category`, `name`) VALUES
 	(1, 'Jeu-Video'),
 	(2, 'Chaussures'),
 	(3, 'Chaussettes'),
@@ -43,15 +43,17 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id_post`),
   KEY `FK_post_topic` (`topic_id`),
   KEY `FK_post_user` (`user_id`),
-  CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
+  CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_post_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forumlecam.post : ~3 rows (environ)
-INSERT INTO `post` (`id_post`, `message`, `topic_id`, `user_id`, `creationDate`) VALUES
+INSERT IGNORE INTO `post` (`id_post`, `message`, `topic_id`, `user_id`, `creationDate`) VALUES
 	(1, 'Age of empire est dead', 1, 1, '2024-07-11 13:39:41'),
 	(2, 'Age of empire est pas mort enfaite ! ', 1, 1, '2024-07-11 13:40:20'),
-	(3, 'Dofus a son economie cassée', 2, 1, '2024-07-11 13:41:07');
+	(3, 'Dofus a son economie cassée', 2, 1, '2024-07-11 13:41:07'),
+	(4, '&lt;p&gt;On en pense quoi des cartes de verres ?&lt;/p&gt;', 4, 1, '2024-07-12 09:05:24'),
+	(5, '&lt;p&gt;J&#039;ai des boutons et j&#039;ai peur que ca soit de l&#039;herp&egrave;s&lt;/p&gt;', 5, 1, '2024-07-12 09:15:02');
 
 -- Listage de la structure de table forumlecam. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -64,31 +66,32 @@ CREATE TABLE IF NOT EXISTS `topic` (
   PRIMARY KEY (`id_topic`),
   KEY `FK_topic_user` (`user_id`),
   KEY `FK_topic_category` (`category_id`),
-  CONSTRAINT `FK_topic_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
+  CONSTRAINT `FK_topic_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_topic_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table forumlecam.topic : ~3 rows (environ)
-INSERT INTO `topic` (`id_topic`, `title`, `user_id`, `category_id`, `creationDate`, `closed`) VALUES
+-- Listage des données de la table forumlecam.topic : ~0 rows (environ)
+INSERT IGNORE INTO `topic` (`id_topic`, `title`, `user_id`, `category_id`, `creationDate`, `closed`) VALUES
 	(1, 'Age of empire 2', 1, 1, '2024-07-09 00:00:00', 0),
 	(2, 'Dofus', 1, 1, '2024-07-11 00:00:00', 0),
-	(3, 'Jules', 1, 2, '2024-07-11 13:42:52', 0);
+	(3, 'Jules', 1, 2, '2024-07-11 13:42:52', 0),
+	(4, 'Balatro', 1, 1, '2024-07-12 09:05:24', 0),
+	(5, 'Herp&egrave;s', 1, 4, '2024-07-12 09:15:02', 0);
 
 -- Listage de la structure de table forumlecam. user
 CREATE TABLE IF NOT EXISTS `user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
   `nickName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `mail` varchar(255) NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `role` varchar(255) NOT NULL DEFAULT 'USER',
   `banned` tinyint DEFAULT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forumlecam.user : ~1 rows (environ)
-INSERT INTO `user` (`id_user`, `nickName`, `password`, `username`, `mail`, `role`, `banned`) VALUES
-	(1, 'Ikaz35', '', '', '', 'USER', NULL);
+INSERT IGNORE INTO `user` (`id_user`, `nickName`, `password`, `email`, `role`, `banned`) VALUES
+	(1, 'Ikaz35', '', '', 'USER', NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
