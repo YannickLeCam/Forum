@@ -27,4 +27,7 @@ class TopicManager extends Manager{
             $this->className
         );
     }
+    public function insertTopic($data){
+        return $this->add($data);
+    }
 }

@@ -78,6 +78,48 @@ class ForumController extends AbstractController implements ControllerInterface{
         ];
     }
 
+    public function newTopic ($id){
+        
+        
+        $categoryManager = new CategoryManager();
+        $category = $categoryManager->findOneById($id);
+        if (isset($_POST['submitNewTopic'])) {
+            $message=filter_input(INPUT_POST,'message',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data['title']=filter_input(INPUT_POST,'title',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if ($message && $data['title']) {
+                $topicManager = new TopicManager();
+                $postManager = new PostManager();
+
+                $data['user_id']=1;
+                $date= new DateTime();
+                $data['creationDate'] = $date->format('Y-m-d H:i:s');
+                $data['category_id']=$id;
+                $data['closed']=0;
+                
+                $data['topic_id']=$topicManager->insertTopic($data);
+
+                
+                if ($data['topic_id']) {
+                    //faut faire le traitement de la data
+                    $data['message']=$message;
+                    unset($data['title']);
+                    unset($data['category_id']);
+                    unset($data['closed']);
+                    $postManager->insertData($data);
+                }
+
+            }
+
+        }
+        return [
+            "view" => VIEW_DIR."forum/newTopic.php",
+            "meta_description"=>"Edition d'un nouveau post dans la catégorie:" .$category,
+            "data" => [
+                "category" => $category
+            ]
+        ];
+    }
 
     // $id is topic id
     public function newPost($id){
