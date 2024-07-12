@@ -27,11 +27,11 @@ class UserManager extends Manager{
         $params = [
             "email" => $email
         ];
-        $user=DAO::select($sql,$params);
-        if ($user) {
-            return $user;
-        }
-        return null;
+
+        $this->getOneOrNullResult(
+            DAO::select($sql, $params, false), 
+            $this->className
+        );
     }
 
     public function getUsers(){
