@@ -4,6 +4,7 @@ namespace Controller;
 use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
+use DateTime;
 use Model\Entities\Post;
 use Model\Entities\Topic;
 use Model\Managers\CategoryManager;
@@ -53,6 +54,20 @@ class ForumController extends AbstractController implements ControllerInterface{
         $topic = $topicManager->findOneById($id);
         $posts = $postManager->findTopicsByCategory($id);
 
+        if (isset($_POST['submitNewPost'])) {
+            # data traitements if error all data in $data
+            $postManager = new PostManager();
+            $data["message"]=filter_input(INPUT_POST,'message',FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['user_id'] = 1; // En attendant que le login se fasse
+            $data['topic_id']=$topic->getId();
+            $date = new DateTime();
+            $data['creationDate']=$date->format('Y-m-d H:i:s');
+            if ($data) {
+                $idNewPost=$postManager->insertData($data);
+            }
+            //Pour reset la page afin que le message s'affiche directement
+            header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$topic->getId());
+        }
         return [
             "view" => VIEW_DIR."forum/listPosts.php",
             "meta_description" => "Liste des posts par topic : ".$topic,
@@ -66,7 +81,6 @@ class ForumController extends AbstractController implements ControllerInterface{
 
     // $id is topic id
     public function newPost($id){
-
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
         $data=[];
@@ -74,11 +88,15 @@ class ForumController extends AbstractController implements ControllerInterface{
         // var_dump($test);
         if (isset($_POST['submitNewPost'])) {
             # data traitements if error all data in $data
-            $data["post"]["message"]=filter_input(INPUT_POST,'message',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-            
-
-            var_dump($data);die;
+            $postManager = new PostManager();
+            $data["message"]=filter_input(INPUT_POST,'message',FILTER_SANITIZE_SPECIAL_CHARS);
+            $data['user_id'] = 1; // En attendant que le login se fasse
+            $data['topic_id']=$topic->getId();
+            $date = new DateTime();
+            $data['creationDate']=$date->format('Y-m-d H:i:s');
+            if ($data) {
+                $postManager->insertData($data);
+            }
         }
         
         return [

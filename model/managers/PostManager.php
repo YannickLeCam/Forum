@@ -28,19 +28,6 @@ class PostManager extends Manager{
     }
 
     public function insertData(array $data){
-        $sql = "
-            INSERT INTO post (
-            id_post,
-            message,
-            topic_id,
-            user_id,
-            ) VALUES (
-            :id_post,
-            :message,
-            :topic_id,
-            :user_id,
-            );
-        ";
-
+        return $this->add($data);
     }
 }

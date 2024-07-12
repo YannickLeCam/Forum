@@ -58,6 +58,7 @@ abstract class Manager{
         /*
             INSERT INTO user (username,password,email) VALUES ('Squalli', 'dfsyfshfbzeifbqefbq', 'sql@gmail.com') 
         */
+
         try{
             return DAO::insert($sql);
         }
