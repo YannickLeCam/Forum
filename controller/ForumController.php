@@ -106,7 +106,11 @@ class ForumController extends AbstractController implements ControllerInterface{
                     unset($data['title']);
                     unset($data['category_id']);
                     unset($data['closed']);
-                    $postManager->insertData($data);
+                    $idNewPost=$postManager->insertData($data);
+                    if ($idNewPost) {
+                        //if post is right
+                        header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$data['topic_id']);
+                    }
                 }
 
             }

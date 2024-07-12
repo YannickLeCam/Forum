@@ -1,7 +1,6 @@
 <?php
     $category = $result["data"]['category']; 
     $topics = $result["data"]['topics']; 
-    var_dump($category,$topics);
 ?>
 
 <h1>Liste des topics</h1>
