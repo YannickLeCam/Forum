@@ -10,7 +10,7 @@ $user= $result['data']['user'];
             <label for="floatingInputPseudo">Modifier son pseudo</label>
     </div>
 
-    <input type="submit" name="submitEditNickName" value="Modifier" >
+    <input type="submit" name="submitEditNickName" class="btn btn-primary" value="Modifier" >
 </form>
 
 
@@ -25,7 +25,7 @@ $user= $result['data']['user'];
         <label for="floatingPasswordConfirm">Confirmation du mot de passe</label>
     </div>
 
-    <input type="submit" name="submitEditPassword" value="Modifier" >
+    <input type="submit" name="submitEditPassword" class="btn btn-primary" value="Modifier" >
 </form>
 
 
