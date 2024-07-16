@@ -117,7 +117,7 @@ class SecurityController extends AbstractController{
     public function logout (){
 
         if (SESSION::getUser()) {
-            SESSION::clearSession();
+            unset($_SESSION);
         }
         return [
             "view" => VIEW_DIR."home.php",
@@ -186,4 +186,28 @@ class SecurityController extends AbstractController{
             ]
         ];
     }
+
+    public function listUser(){
+        $user = SESSION::getUser();
+        if (!SESSION::isAdmin()) {
+            SESSION::addFlash('error','Vous n\'avez pas accès a cette page . . .');
+            return [
+                "view" => VIEW_DIR."home.php",
+                "meta_description" => "home"
+            ];
+        }
+
+        $userManager = new UserManager();
+        $listUser = $userManager->findAll();
+
+        return [
+            "view" => VIEW_DIR."security/listUser.php",
+            "meta_description" => "liste users",
+            "data" => [
+                "user" => $user,
+                'listUser' => $listUser
+            ]
+        ];
+    }
+
 }

@@ -10,7 +10,7 @@
     });
 </script>
 
-<form " action="index.php?ctrl=forum&action=newTopic&id=<?=$category->getId()?>"" method="post" onsubmit="submitForm()">
+<form  action="index.php?ctrl=forum&action=newTopic&id=<?=$category->getId()?>" method="post" onsubmit="submitForm()">
     
     <div class="form-floating mb-3">
         <input type="text" class="form-control" name="title" id="floatingInputPseudo" placeholder="Titre du topic">

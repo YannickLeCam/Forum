@@ -18,6 +18,10 @@ class UserManager extends Manager{
         return $this->add($data);
     }
 
+    public function listUser(){
+        return $this->findAll();
+    }
+
     public function getUserByEmail($email){
         $sql = "
             SELECT *
