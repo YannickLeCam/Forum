@@ -34,6 +34,35 @@ class UserManager extends Manager{
         );
     }
 
+    public function editPseudo($newPseudo , $id){
+        $sql = "
+            UPDATE user
+            SET nickName = :nickName
+            WHERE id_user = :id;
+        ";
+        $params=[
+            "nickName"=>$newPseudo,
+            "id"=>$id
+        ];
+        
+        return DAO::update($sql,$params);
+    }
+    
+    public function editPassword($newPassword , $id){
+        $sql = "
+            UPDATE user
+            SET password = :password
+            WHERE id_user = :id;
+        ";
+        $params=[
+            "password"=>$newPassword,
+            "id"=>$id
+        ];
+        
+        return DAO::update($sql,$params);
+    }
+
+
     public function getUsers(){
         return $this->findAll();
     }

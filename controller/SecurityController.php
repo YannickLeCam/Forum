@@ -70,8 +70,6 @@ class SecurityController extends AbstractController{
                         $session->addFlash("error","Il semble y avoir un probleme dans la BDD");
                     }
                 }
-                
-
 
             }else {
                 $session->addFlash("error","Il semble manquer des éléments . . .");
@@ -135,6 +133,51 @@ class SecurityController extends AbstractController{
                 "meta_description" => "home"
             ];
         }
+        if (isset($_POST['submitEditNickName'])) {
+
+            $newNickName = filter_input(INPUT_POST,'nickName',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            if ($newNickName) {
+                if ($newNickName<5) {
+                    SESSION::addFlash('error','Le pseudo doit faira au minimum de 5 charactères');
+                }else {
+                    $userManager = new UserManager();
+                    $veri = $userManager->editPseudo($newNickName , $user->getId());
+                    if ($veri) {
+                        SESSION::addFlash('success','Vous avez bien modifier votre pseudo');
+                    }
+                }
+            }else {
+                SESSION::addFlash('error','Il semblerait manquer un pseudo . . .');
+            }
+        }
+        if (isset($_POST['submitEditPassword'])) {
+            $password =  filter_input(INPUT_POST,'password',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $passwordConfirm =  filter_input(INPUT_POST,'passwordConfirm',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            if ($password && $passwordConfirm) {
+                $lock = true;
+                if ($password !== $passwordConfirm) {
+                    SESSION::addFlash('error','Les mots de passe semble ne pas etre identiques . . .');
+                    $lock = false;
+                }
+                if (!($this->isStrongPassword($password))) {
+                    SESSION::addFlash("error","Le mot de passe doit contenir : Une lettre minuscule , Une lettre Majuscule, un charactere spécial et un chiffre minimum . . .");
+                    $lock=false;
+                }
+
+                if ($lock) {
+                    $userManager = new UserManager();
+                    $veri = $userManager->editPassword($password,$user->getId());
+                    if ($veri) {
+                        SESSION::addFlash('success','Vous avez bien modifier votre mot de passe !');
+                    }else {
+                        SESSION::addFlash("error","L'insertion du mot de passe semble ne pas avoir fonctionné . . .");
+                    }
+                }
+            }
+        }
+
         return [
             "view"=> VIEW_DIR."security/profile.php",
             "meta_description" => "profile",
