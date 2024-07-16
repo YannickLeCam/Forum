@@ -51,7 +51,19 @@ class UserManager extends Manager{
         
         return DAO::update($sql,$params);
     }
+    public function updateRoleToAdmin($id){
+        $sql = "
+        UPDATE user
+        SET role = :role
+        WHERE id_user = :id;
+    ";
+    $params=[
+        "role"=>'ADMIN',
+        "id"=>$id
+    ];
     
+    return DAO::update($sql,$params);
+    }
     public function editPassword($newPassword , $id){
         $sql = "
             UPDATE user

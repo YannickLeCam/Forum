@@ -4,6 +4,8 @@ namespace Controller;
 use App\AbstractController;
 use App\ControllerInterface;
 use App\Session;
+use Model\Managers\PostManager;
+use Model\Managers\TopicManager;
 use Model\Managers\UserManager;
 
 class SecurityController extends AbstractController{
@@ -206,6 +208,43 @@ class SecurityController extends AbstractController{
             "data" => [
                 "user" => $user,
                 'listUser' => $listUser
+            ]
+        ];
+    }
+
+    public function userDetail(int $id){
+        if (!SESSION::isAdmin()) {
+            SESSION::addFlash('error','Vous n\'avez pas accès a cette page . . .');
+            return [
+                "view" => VIEW_DIR."home.php",
+                "meta_description" => "home"
+            ];
+        }
+        $userManager = new UserManager();
+        $userSelected=$userManager->findOneById($id);
+        $topicManager=new TopicManager();
+        $userSelectedTopics = $topicManager->findTopicsByIdUser($id);
+        $postManager = new PostManager();
+        $userSelectedPosts = $postManager->findPostsByIdUser($id);
+
+        if (isset($_POST['submitButtonAddAdmin'])) {
+            $verify=$userManager->updateRoleToAdmin($id);
+            if ($verify) {
+                SESSION::addFlash('succes',"L'utilisateur $userSelected est devenu un Admin !");
+                header('Location:./index.php?ctrl=security&action=userDetail&id='.$userSelected->getId());
+                die;
+            }else {
+                SESSION::addFlash('error','Il semble y avoir un probleme sur la mise en place du nouvel Admin . . .');
+            }
+        }
+
+        return [
+            "view" => VIEW_DIR."security/detailUser.php",
+            "meta_description" => "detail utilisateur",
+            "data" => [
+                "userSelected" => $userSelected,
+                "userSelectedTopics" => $userSelectedTopics,
+                "userSelectedPosts" => $userSelectedPosts
             ]
         ];
     }

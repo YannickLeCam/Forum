@@ -52,7 +52,7 @@ class ForumController extends AbstractController implements ControllerInterface{
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
-        $posts = $postManager->findTopicsByCategory($id);
+        $posts = $postManager->findPostsByTopic($id);
 
         if (isset($_POST['submitNewPost'])) {
             # data traitements if error all data in $data

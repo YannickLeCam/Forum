@@ -19,10 +19,10 @@ var_dump($listUser);
                 echo <<<HTML
                 <div class="card border-$color mb-3" style="max-width: 18rem;">
                     <div class="card-header">$userListed</div>
-                    <div class="card-body text-$color">
+                    <div class="card-body">
                         <h5 class="card-title">{$userListed->getEmail()}</h5>
                     </div>
-                    <a href="./index.php?ctrl=security&action=userDetail&id={userListed->getId()}"class="btn btn-$color"> Voir plus </a>
+                    <a href="./index.php?ctrl=security&action=userDetail&id={$userListed->getId()}"class="btn btn-$color"> Voir plus </a>
                 </div>
 HTML;
             }

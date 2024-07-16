@@ -41,7 +41,7 @@ if(isset($_GET['action']) && method_exists($ctrl, $_GET['action'])){
     $action = $_GET['action'];
 }
 if(isset($_GET['id'])){
-    $id = $_GET['id'];
+    $id = filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT);
 }
 else $id = null;
 //ex : HomeController->users(null)

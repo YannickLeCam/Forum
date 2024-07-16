@@ -27,6 +27,21 @@ class TopicManager extends Manager{
             $this->className
         );
     }
+
+    public function findTopicsByIdUser($id) {
+
+        $sql = "SELECT * 
+                FROM ".$this->tableName." t 
+                WHERE user_id = :id";
+       
+        // la requête renvoie plusieurs enregistrements --> getMultipleResults
+        return  $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id]), 
+            $this->className
+        );
+    }
+
+    
     public function insertTopic($data){
         return $this->add($data);
     }
