@@ -79,8 +79,12 @@ class ForumController extends AbstractController implements ControllerInterface{
     }
 
     public function newTopic ($id){
-        
-        
+
+        $user=SESSION::getUser();
+        if (!$user) {
+            SESSION::addFlash('error',"Vous n'avez pas accès a cette page");
+            header('Location:./index.php');
+        }
         $categoryManager = new CategoryManager();
         $category = $categoryManager->findOneById($id);
         if (isset($_POST['submitNewTopic'])) {

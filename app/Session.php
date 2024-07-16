@@ -45,4 +45,8 @@ class Session{
         }
         return false;
     }
+
+    public static function crsfToken(){
+        $_SESSION['crsf_']= password_hash(bin2hex(random_bytes(32)),PASSWORD_DEFAULT);
+    }
 }

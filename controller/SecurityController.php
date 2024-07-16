@@ -96,15 +96,18 @@ class SecurityController extends AbstractController{
             var_dump($user->getPassword());
             var_dump(password_verify($data['password'],$user->getPassword() ));
             if ($user) {
-                
-                if (password_verify($data['password'],$user->getPassword() )) {
-                    $session->setUser($user);;
-                    $session->addFlash("success","Vous etes bien connecté !");
+                if ($user->getBanned()!=null) {
+                    $session->addFlash('error', 'Vous etes bannit ! Vilain !');
                 }
-                else {
-                    $session->addFlash('error','Email ou mot de passe semble etre incorrect');
+                else{
+                    if (password_verify($data['password'],$user->getPassword() )) {
+                        $session->setUser($user);;
+                        $session->addFlash("success","Vous etes bien connecté !");
+                    }
+                    else {
+                        $session->addFlash('error','Email ou mot de passe semble etre incorrect');
+                    }
                 }
-
             }
             else {
                 $session->addFlash('error','Email ou mot de passe semble etre incorrect');
@@ -231,6 +234,28 @@ class SecurityController extends AbstractController{
             $verify=$userManager->updateRoleToAdmin($id);
             if ($verify) {
                 SESSION::addFlash('succes',"L'utilisateur $userSelected est devenu un Admin !");
+                header('Location:./index.php?ctrl=security&action=userDetail&id='.$userSelected->getId());
+                die;
+            }else {
+                SESSION::addFlash('error','Il semble y avoir un probleme sur la mise en place du nouvel Admin . . .');
+                
+            }
+        }
+
+        if (isset($_POST['submitButtonUnban'])) {
+            $verify = $userManager -> unbanUser($id);
+            if ($verify) {
+                SESSION::addFlash('success',"Vous avez débannie $userSelected !");
+                header('Location:./index.php?ctrl=security&action=userDetail&id='.$userSelected->getId());
+                die;
+            }else {
+                SESSION::addFlash('error','Il semble y avoir un probleme sur la mise en place du nouvel Admin . . .');
+            }
+        }
+        if (isset($_POST['submitButtonBan'])) {
+            $verify = $userManager -> banUser($id);
+            if ($verify) {
+                SESSION::addFlash('success',"Vous avez bannie $userSelected !");
                 header('Location:./index.php?ctrl=security&action=userDetail&id='.$userSelected->getId());
                 die;
             }else {
