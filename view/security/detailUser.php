@@ -26,3 +26,19 @@ if ($userSelected->getRole()=="USER") {
 HTML;
 }
 ?>
+
+<h2>Les topics</h2>
+
+<?php
+foreach ($userSelectedTopics as $topic) {
+    var_dump($topic);
+}
+?>
+
+<h2> Les posts</h2>
+
+<?php
+foreach ($userSelectedPosts as $post) {
+    var_dump($post);
+}
+?>
