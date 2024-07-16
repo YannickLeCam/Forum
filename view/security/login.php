@@ -1,3 +1,7 @@
+<?php
+use App\Session;
+
+?>
 <h1>Connexion</h1>
 
 
@@ -13,4 +17,5 @@
 
     <input type="submit" class="btn btn-primary" name="submitLogin" value="Se connecter">
 
+    <input type="hidden" name="crsf_" value="<?=$_SESSION['crsf_']?>">
 </form>

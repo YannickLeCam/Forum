@@ -46,7 +46,17 @@ class Session{
         return false;
     }
 
-    public static function crsfToken(){
+    public static function setCrsfToken(){
         $_SESSION['crsf_']= password_hash(bin2hex(random_bytes(32)),PASSWORD_DEFAULT);
+    }
+
+    public static function verifyCrsfToken(){
+        $crsfGive=filter_input(INPUT_POST,'crsf_',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $crsfReal=filter_var($_SESSION['crsf_'],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ($crsfGive==$crsfReal) {
+            return $_SESSION['checkedCrsf']=true;
+        }else{
+            return $_SESSION['checkedCrsf']=false;
+        }
     }
 }

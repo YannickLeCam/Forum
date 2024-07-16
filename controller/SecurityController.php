@@ -87,7 +87,11 @@ class SecurityController extends AbstractController{
     public function login () {
         if (isset($_POST['submitLogin'])) {
             $session = new Session();
-
+            if (!$_SESSION['checkedCrsf']) {
+                $session->addFlash('error','Oulah stop ! il semble y avoir un problème !');
+                header('Location:./index.php');
+                die;
+            }
             $data['email']=filter_input(INPUT_POST,'email',FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_VALIDATE_EMAIL);
             $data['password']=filter_input(INPUT_POST,'password',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -122,7 +126,7 @@ class SecurityController extends AbstractController{
     public function logout (){
 
         if (SESSION::getUser()) {
-            unset($_SESSION);
+            unset($_SESSION['user']);
         }
         return [
             "view" => VIEW_DIR."home.php",
