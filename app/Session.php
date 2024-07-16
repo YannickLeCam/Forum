@@ -33,6 +33,10 @@ class Session{
         $_SESSION["user"] = $user;
     }
 
+    public static function clearSession(){
+        $_SESSION = [];
+    }
+
     public static function getUser(){
         return (isset($_SESSION['user'])) ? $_SESSION['user'] : false;
     }

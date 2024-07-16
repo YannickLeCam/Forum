@@ -25,10 +25,10 @@ class UserManager extends Manager{
             WHERE email = :email
         ";
         $params = [
-            "email" => $email
+            ":email" => $email
         ];
 
-        $this->getOneOrNullResult(
+        return $this->getOneOrNullResult(
             DAO::select($sql, $params, false), 
             $this->className
         );

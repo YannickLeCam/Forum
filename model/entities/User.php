@@ -42,7 +42,7 @@ final class User extends Entity{
      * Get the value of id
      */ 
     public function getPassword(){
-        return $this->id;
+        return $this->password;
     }
 
     /**
@@ -98,6 +98,33 @@ final class User extends Entity{
     public function getNickName(){
         return $this->nickName;
     }
+
+    /**
+     * The function return a bool, verify if user is the role put in params.
+     * 
+     * string $role = role wanted to verify
+     * 
+     * return = bool
+     */
+    public function  hasRole(string $role):bool{
+        if (str_contains($role,'ADMIN')) {
+            if ($this->role == "ADMIN") {
+                return true;
+            }else {
+                return false;
+            }
+        }
+        if (str_contains($role,'USER')) {
+            if ($this->role == "USER") {
+                return true;
+            }else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
 
     /**
      * Set the value of nickName

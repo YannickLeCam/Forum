@@ -39,7 +39,7 @@ class SecurityController extends AbstractController{
                     $error=true;
                 }
                 if (strlen($data['password']) < 12) {
-                    $session->addFlash("error","Le mot de passe doit contenir : Une lettre minuscule , Une lettre Majuscule, un charactere spécial et un chiffre minimum . . .");                    
+                    $session->addFlash("error","Le mot de passe doit contenir : Il faut un minimum de 12 chars");                    
                     $error=true;
                 }
     
@@ -93,20 +93,20 @@ class SecurityController extends AbstractController{
 
             $userManager = new UserManager();
             $user = $userManager->getUserByEmail($data['email']);
-
-            $data['password']= password_hash($data['password'],PASSWORD_DEFAULT);
-            
+            var_dump($user->getPassword());
+            var_dump(password_verify($data['password'],$user->getPassword() ));
             if ($user) {
                 
-                if ($user->getPassword() == $data['password']) {
-                    $session->setUser($user);
+                if (password_verify($data['password'],$user->getPassword() )) {
+                    $session->setUser($user);;
                     $session->addFlash("success","Vous etes bien connecté !");
                 }
                 else {
                     $session->addFlash('error','Email ou mot de passe semble etre incorrect');
                 }
-                var_dump($user);die;
-            }else {
+
+            }
+            else {
                 $session->addFlash('error','Email ou mot de passe semble etre incorrect');
             }
             
@@ -116,10 +116,31 @@ class SecurityController extends AbstractController{
             "meta_description" => "Connexion"
         ];
     }
-    public function logout () {
+    public function logout (){
+
+        if (SESSION::getUser()) {
+            SESSION::clearSession();
+        }
         return [
             "view" => VIEW_DIR."home.php",
             "meta_description" => "home"
+        ];
+    }
+
+    public function profile(){
+        $user= SESSION::getUser();
+        if (!$user) {
+            return [
+                "view" => VIEW_DIR."home.php",
+                "meta_description" => "home"
+            ];
+        }
+        return [
+            "view"=> VIEW_DIR."security/profile.php",
+            "meta_description" => "profile",
+            "data" =>[
+                "user" =>$user
+            ]
         ];
     }
 }
