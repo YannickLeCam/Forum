@@ -86,8 +86,10 @@ class SecurityController extends AbstractController{
     }
     public function login () {
         if (isset($_POST['submitLogin'])) {
+            var_dump(SESSION::getCsrfToken());
+            var_dump($_POST);die;
             $session = new Session();
-            if (!$_SESSION['checkedCrsf']) {
+            if ((filter_var(SESSION::getCsrfToken(),FILTER_SANITIZE_FULL_SPECIAL_CHARS)!=filter_input(INPUT_POST,'csrf_',FILTER_SANITIZE_FULL_SPECIAL_CHARS))|| $_POST['jsuispasunhoneypot']!='') {
                 $session->addFlash('error','Oulah stop ! il semble y avoir un problème !');
                 header('Location:./index.php');
                 die;

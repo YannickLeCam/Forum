@@ -21,8 +21,9 @@ session_start();
 
 //et on intègre la classe Session qui prend la main sur les messages en session
 use App\Session as Session;
-$checkedCrsf=SESSION::verifyCrsfToken();
-Session::setCrsfToken();
+
+Session::setCsrfToken();
+
 //---------REQUETE HTTP INTERCEPTEE-----------
 $ctrlname = DEFAULT_CTRL;//on prend le controller par défaut
 //ex : index.php?ctrl=home
@@ -68,3 +69,6 @@ else{
     /* j'affiche le template principal (layout) */
     include VIEW_DIR."layout.php";
 }
+
+
+

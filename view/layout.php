@@ -1,3 +1,6 @@
+<?php
+use APP\Session;
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>

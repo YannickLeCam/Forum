@@ -17,5 +17,8 @@ use App\Session;
 
     <input type="submit" class="btn btn-primary" name="submitLogin" value="Se connecter">
 
-    <input type="hidden" name="crsf_" value="<?=$_SESSION['crsf_']?>">
+    <input type="hidden" name="csrf_" value="<?=SESSION::getCsrfToken()?>">
+
+    <input type="text" name="jsuispasunhoneypot" style="display:none">
+
 </form>
