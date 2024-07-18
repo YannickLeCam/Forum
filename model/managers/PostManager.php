@@ -41,6 +41,7 @@ class PostManager extends Manager{
         );
     }
 
+
     public function insertData(array $data){
         return $this->add($data);
     }

@@ -31,7 +31,12 @@ class ForumController extends AbstractController implements ControllerInterface{
     }
 
     public function listTopicsByCategory($id) {
-
+        $user = SESSION::getUser();
+        if (!$user) {
+            SESSION::addFlash('error','Vous devez etre connecté pour acceder a cette page . . .');
+            header('Location:./index.php?ctrl=security&action=login');
+            die;
+        }
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
         $category = $categoryManager->findOneById($id);
@@ -48,7 +53,12 @@ class ForumController extends AbstractController implements ControllerInterface{
     }
 
     public function listPostsByTopic($id) {
-
+        $user = SESSION::getUser();
+        if (!$user) {
+            SESSION::addFlash('error','Vous devez etre connecté pour acceder a cette page . . .');
+            header('Location:./index.php?ctrl=security&action=login');
+            die;
+        }
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
@@ -68,6 +78,21 @@ class ForumController extends AbstractController implements ControllerInterface{
             //Pour reset la page afin que le message s'affiche directement
             header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$topic->getId());
         }
+
+        if (isset($_POST['deletePost'])) {
+            $idPost = filter_input(INPUT_GET,'idPost',FILTER_VALIDATE_INT);
+            if ($idPost) {
+                $post=$postManager->findOneById($idPost);
+                if ($post->getUser()==$user->getId()||SESSION::isAdmin()) {
+                    $postManager->delete($post->getId());
+                }else {
+                    SESSION::addFlash('error', "Vous n'avez pas la permission de supprimer ce message . . .");
+                }
+            }else {
+                SESSION::addFlash('error',"Le post n'existe pas ou plus . . .");
+            }
+        }
+
         return [
             "view" => VIEW_DIR."forum/listPosts.php",
             "meta_description" => "Liste des posts par topic : ".$topic,
@@ -77,13 +102,14 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
-
+    //$id is category id 
     public function newTopic ($id){
 
         $user=SESSION::getUser();
         if (!$user) {
             SESSION::addFlash('error',"Vous n'avez pas accès a cette page");
             header('Location:./index.php');
+            die;
         }
         $categoryManager = new CategoryManager();
         $category = $categoryManager->findOneById($id);
@@ -128,36 +154,4 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
-
-    // $id is topic id
-    public function newPost($id){
-        $topicManager = new TopicManager();
-        $topic = $topicManager->findOneById($id);
-        $data=[];
-
-        // var_dump($test);
-        if (isset($_POST['submitNewPost'])) {
-            $user = SESSION::getUser();
-            # data traitements if error all data in $data
-            $postManager = new PostManager();
-            $data["message"]=filter_input(INPUT_POST,'message',FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['user_id'] = $user->getId(); // En attendant que le login se fasse
-            $data['topic_id']=$topic->getId();
-            $date = new DateTime();
-            $data['creationDate']=$date->format('Y-m-d H:i:s');
-            if ($data) {
-                $postManager->insertData($data);
-            }
-        }
-        
-        return [
-            "view" => VIEW_DIR."forum/newPost.php",
-            "meta_description"=>"Edition d'un nouveau post sur le topic : " .$topic,
-            "data" => [
-                "topic"=>$topic,
-                "data"=>$data
-            ]
-        ];
-    }
-    
 }
