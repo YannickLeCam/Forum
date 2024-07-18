@@ -4,7 +4,8 @@
 ?>
 
 <h1>Liste des topics</h1>
-<a href="./index.php?ctrl=forum&action=newTopic&id=<?=$category->getId()?>" class="btn btn-success">Nouveau topic</a>
+<a href="index.php?ctrl=forum&action=index" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
+<a href="index.php?ctrl=forum&action=newTopic&id=<?=$category->getId()?>" class="btn btn-success">Nouveau topic</a>
 <?php
 
 foreach($topics as $topic ){ ?>

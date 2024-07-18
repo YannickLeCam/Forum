@@ -4,6 +4,7 @@ $posts= $result['data']['posts'];
 
 ?>
 
+<a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getId()?>" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
 <?php
 foreach($posts as $post ){ ?>
     <li>username : <?=$post->getUser()?></li>

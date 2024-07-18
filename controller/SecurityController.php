@@ -86,43 +86,44 @@ class SecurityController extends AbstractController{
     }
     public function login () {
 
-        if (isset($_POST['submitLogin'])) {
-            var_dump(hash_equals(SESSION::getCsrfToken(),$_POST['csrf_']) , SESSION::getCsrfToken() ,$_POST['csrf_'] );
-            $session = new Session();
-            // if ((filter_var(SESSION::getCsrfToken(),FILTER_SANITIZE_FULL_SPECIAL_CHARS)!=filter_input(INPUT_POST,'csrf_',FILTER_SANITIZE_FULL_SPECIAL_CHARS))|| $_POST['jsuispasunhoneypot']!='') {
-            //     $session->addFlash('error','Oulah stop ! il semble y avoir un problème !');
-            //     header('Location:./index.php');
-            //     die;
-            // }
-            
-            $data['email']=filter_input(INPUT_POST,'email',FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_VALIDATE_EMAIL);
-            $data['password']=filter_input(INPUT_POST,'password',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-            $userManager = new UserManager();
-            $user = $userManager->getUserByEmail($data['email']);
-            var_dump($user->getPassword());
-            var_dump(password_verify($data['password'],$user->getPassword() ));
-            if ($user) {
-                if ($user->getBanned()!=null) {
-                    $session->addFlash('error', 'Vous etes bannit ! Vilain !');
-                }
-                else{
-                    if (password_verify($data['password'],$user->getPassword() )) {
-                        $session->setUser($user);;
-                        $session->addFlash("success","Vous etes bien connecté !");
-                        header('Location:./index.php');
-                        die;
+        //$session = new Session();
+        if ($_SERVER['REQUEST_METHOD']==='POST') {
+            $csrf = $_POST['csrf_'];
+            if (!isset($_POST['csrf_']) || $csrf !== $_SESSION['csrf_'] ) {
+                die('error csrf');
+            }else {
+                if (isset($_POST['submitLogin'])) {
+                    $data['email']=filter_input(INPUT_POST,'email',FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_VALIDATE_EMAIL);
+                    $data['password']=filter_input(INPUT_POST,'password',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        
+                    $userManager = new UserManager();
+                    $user = $userManager->getUserByEmail($data['email']);
+                    var_dump($user->getPassword());
+                    var_dump(password_verify($data['password'],$user->getPassword() ));
+                    if ($user) {
+                        if ($user->getBanned()!=null) {
+                            SESSION::addFlash('error', 'Vous etes bannit ! Vilain !');
+                        }
+                        else{
+                            if (password_verify($data['password'],$user->getPassword() )) {
+                                SESSION::setUser($user);;
+                                SESSION::addFlash("success","Vous etes bien connecté !");
+                                header('Location:./index.php');
+                                Session::setCsrfToken();
+                                die;
+                            }
+                            else {
+                                SESSION::addFlash('error','Email ou mot de passe semble etre incorrect');
+                            }
+                        }
                     }
                     else {
-                        $session->addFlash('error','Email ou mot de passe semble etre incorrect');
-                    }
+                        SESSION::addFlash('error','Email ou mot de passe semble etre incorrect');
+                    } 
                 }
             }
-            else {
-                $session->addFlash('error','Email ou mot de passe semble etre incorrect');
-            }
-            
         }
+        
         return [
             "view" => VIEW_DIR."security/login.php",
             "meta_description" => "Connexion"
