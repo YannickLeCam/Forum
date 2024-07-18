@@ -94,8 +94,8 @@ class ForumController extends AbstractController implements ControllerInterface{
             if ($message && $data['title']) {
                 $topicManager = new TopicManager();
                 $postManager = new PostManager();
-
-                $data['user_id']=1;
+                $user=SESSION::getUser();
+                $data['user_id']=$user->getId();
                 $date= new DateTime();
                 $data['creationDate'] = $date->format('Y-m-d H:i:s');
                 $data['category_id']=$id;
@@ -137,10 +137,11 @@ class ForumController extends AbstractController implements ControllerInterface{
 
         // var_dump($test);
         if (isset($_POST['submitNewPost'])) {
+            $user = SESSION::getUser();
             # data traitements if error all data in $data
             $postManager = new PostManager();
             $data["message"]=filter_input(INPUT_POST,'message',FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['user_id'] = 1; // En attendant que le login se fasse
+            $data['user_id'] = $user->getId(); // En attendant que le login se fasse
             $data['topic_id']=$topic->getId();
             $date = new DateTime();
             $data['creationDate']=$date->format('Y-m-d H:i:s');
