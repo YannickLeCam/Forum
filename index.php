@@ -31,7 +31,7 @@ Session::setCsrfToken();
 $ctrlname = DEFAULT_CTRL;//on prend le controller par défaut
 //ex : index.php?ctrl=home
 if(isset($_GET['ctrl'])){
-    $ctrlname = $_GET['ctrl'];
+    $ctrlname = filter_input(INPUT_GET,'ctrl',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 }
 //on construit le namespace de la classe Controller à appeller
 $ctrlNS = "controller\\".ucfirst($ctrlname)."Controller";
@@ -46,7 +46,7 @@ $action = "index";//action par défaut de n'importe quel contrôleur
 //si l'action est présente dans l'url ET que la méthode correspondante existe dans le ctrl
 if(isset($_GET['action']) && method_exists($ctrl, $_GET['action'])){
     //la méthode à appeller sera celle de l'url
-    $action = $_GET['action'];
+    $action = filter_input(INPUT_GET,'action',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 }
 if(isset($_GET['id'])){
     $id = filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT);

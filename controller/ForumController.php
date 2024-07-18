@@ -46,7 +46,7 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
-
+    //$id is category id
     public function listTopicsByCategory($id) {
         $user = $this->verifyConnectedUser();
         $topicManager = new TopicManager();
@@ -77,7 +77,7 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
-
+    //$id is topic id
     public function listPostsByTopic($id) {
         $user=$this->verifyConnectedUser();
         $postManager = new PostManager();
