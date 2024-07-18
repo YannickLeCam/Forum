@@ -7,14 +7,31 @@ use App\ControllerInterface;
 use DateTime;
 use Model\Entities\Post;
 use Model\Entities\Topic;
+use Model\Entities\User;
 use Model\Managers\CategoryManager;
 use Model\Managers\PostManager;
 use Model\Managers\TopicManager;
 
 class ForumController extends AbstractController implements ControllerInterface{
+    
+    /**
+     * verifyConnectedUser is a function to verify is user is connected if not he's redirect to connexion route else return user
+     *
+     * @return User 
+     */
+    private function verifyConnectedUser():User{
+        $user = SESSION::getUser();
+        if (!$user) {
+            SESSION::addFlash('error','Vous devez etre connecté pour acceder a cette page . . .');
+            header('Location:./index.php?ctrl=security&action=login');
+            die;
+        }else {
+            return $user;
+        }
+    }
 
     public function index() {
-        
+        $this->verifyConnectedUser();
         // créer une nouvelle instance de CategoryManager
         $categoryManager = new CategoryManager();
         // récupérer la liste de toutes les catégories grâce à la méthode findAll de Manager.php (triés par nom)
@@ -31,16 +48,25 @@ class ForumController extends AbstractController implements ControllerInterface{
     }
 
     public function listTopicsByCategory($id) {
-        $user = SESSION::getUser();
-        if (!$user) {
-            SESSION::addFlash('error','Vous devez etre connecté pour acceder a cette page . . .');
-            header('Location:./index.php?ctrl=security&action=login');
-            die;
-        }
+        $user = $this->verifyConnectedUser();
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
         $category = $categoryManager->findOneById($id);
         $topics = $topicManager->findTopicsByCategory($id);
+
+        if (isset($_POST['submitDeleteTopic'])) {
+            $idTopic = filter_input(INPUT_GET,'idTopic',FILTER_VALIDATE_INT);
+            if ($idTopic) {
+                $topic=$topicManager->findOneById($idTopic);
+                if ($topic->getUser()==$user->getId()||SESSION::isAdmin()) {
+                    $topicManager->delete($topic->getId());
+                }else {
+                    SESSION::addFlash('error', "Vous n'avez pas la permission de supprimer ce topic . . .");
+                }
+            }else {
+                SESSION::addFlash('error',"Le topic n'existe pas ou plus . . .");
+            }
+        }
 
         return [
             "view" => VIEW_DIR."forum/listTopics.php",
@@ -53,12 +79,7 @@ class ForumController extends AbstractController implements ControllerInterface{
     }
 
     public function listPostsByTopic($id) {
-        $user = SESSION::getUser();
-        if (!$user) {
-            SESSION::addFlash('error','Vous devez etre connecté pour acceder a cette page . . .');
-            header('Location:./index.php?ctrl=security&action=login');
-            die;
-        }
+        $user=$this->verifyConnectedUser();
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
@@ -68,7 +89,7 @@ class ForumController extends AbstractController implements ControllerInterface{
             # data traitements if error all data in $data
             $postManager = new PostManager();
             $data["message"]=filter_input(INPUT_POST,'message',FILTER_SANITIZE_SPECIAL_CHARS);
-            $data['user_id'] = 1; // En attendant que le login se fasse
+            $data['user_id'] = $user->getId(); // En attendant que le login se fasse
             $data['topic_id']=$topic->getId();
             $date = new DateTime();
             $data['creationDate']=$date->format('Y-m-d H:i:s');
@@ -105,12 +126,7 @@ class ForumController extends AbstractController implements ControllerInterface{
     //$id is category id 
     public function newTopic ($id){
 
-        $user=SESSION::getUser();
-        if (!$user) {
-            SESSION::addFlash('error',"Vous n'avez pas accès a cette page");
-            header('Location:./index.php');
-            die;
-        }
+        $user = $this->verifyConnectedUser();
         $categoryManager = new CategoryManager();
         $category = $categoryManager->findOneById($id);
         if (isset($_POST['submitNewTopic'])) {

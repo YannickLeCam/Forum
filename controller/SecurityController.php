@@ -85,15 +85,16 @@ class SecurityController extends AbstractController{
         ];
     }
     public function login () {
+
         if (isset($_POST['submitLogin'])) {
-            var_dump(SESSION::getCsrfToken());
-            var_dump($_POST);die;
+            var_dump(hash_equals(SESSION::getCsrfToken(),$_POST['csrf_']) , SESSION::getCsrfToken() ,$_POST['csrf_'] );
             $session = new Session();
-            if ((filter_var(SESSION::getCsrfToken(),FILTER_SANITIZE_FULL_SPECIAL_CHARS)!=filter_input(INPUT_POST,'csrf_',FILTER_SANITIZE_FULL_SPECIAL_CHARS))|| $_POST['jsuispasunhoneypot']!='') {
-                $session->addFlash('error','Oulah stop ! il semble y avoir un problème !');
-                header('Location:./index.php');
-                die;
-            }
+            // if ((filter_var(SESSION::getCsrfToken(),FILTER_SANITIZE_FULL_SPECIAL_CHARS)!=filter_input(INPUT_POST,'csrf_',FILTER_SANITIZE_FULL_SPECIAL_CHARS))|| $_POST['jsuispasunhoneypot']!='') {
+            //     $session->addFlash('error','Oulah stop ! il semble y avoir un problème !');
+            //     header('Location:./index.php');
+            //     die;
+            // }
+            
             $data['email']=filter_input(INPUT_POST,'email',FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_VALIDATE_EMAIL);
             $data['password']=filter_input(INPUT_POST,'password',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -109,6 +110,8 @@ class SecurityController extends AbstractController{
                     if (password_verify($data['password'],$user->getPassword() )) {
                         $session->setUser($user);;
                         $session->addFlash("success","Vous etes bien connecté !");
+                        header('Location:./index.php');
+                        die;
                     }
                     else {
                         $session->addFlash('error','Email ou mot de passe semble etre incorrect');
@@ -156,6 +159,10 @@ class SecurityController extends AbstractController{
                     $veri = $userManager->editPseudo($newNickName , $user->getId());
                     if ($veri) {
                         SESSION::addFlash('success','Vous avez bien modifier votre pseudo');
+                        //Update courrent user
+                        $userManager=new UserManager();
+                        $user = $userManager->findOneById($user->getId());
+                        SESSION::setUser($user);
                     }
                 }
             }else {

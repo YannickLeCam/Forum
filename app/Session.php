@@ -47,7 +47,7 @@ class Session{
     }
 
     public static function setCsrfToken(){
-        $_SESSION['csrf_']= password_hash(bin2hex(random_bytes(32)),PASSWORD_DEFAULT);
+        $_SESSION['csrf_']= md5(bin2hex(random_bytes(32)));
     }
 
     public static function getCsrfToken(){
