@@ -47,7 +47,9 @@ class Session{
     }
 
     public static function setCsrfToken(){
-        $_SESSION['csrf_']= bin2hex(random_bytes(32));
+        if ($_SERVER["REQUEST_METHOD"]!=='POST') {
+            $_SESSION['csrf_']= bin2hex(random_bytes(32));
+        }
     }
 
     public static function getCsrfToken(){

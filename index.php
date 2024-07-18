@@ -22,10 +22,10 @@ session_start();
 //et on intègre la classe Session qui prend la main sur les messages en session
 use App\Session as Session;
 
-//Session::setCsrfToken();
-if (!Session::getCsrfToken()) {
-    $_SESSION['csrf_']=bin2hex(random_bytes(32));
-}
+Session::setCsrfToken();
+// if (!Session::getCsrfToken()) {
+//     $_SESSION['csrf_']=bin2hex(random_bytes(32));
+// }
 
 //---------REQUETE HTTP INTERCEPTEE-----------
 $ctrlname = DEFAULT_CTRL;//on prend le controller par défaut
