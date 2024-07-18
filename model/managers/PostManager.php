@@ -41,6 +41,16 @@ class PostManager extends Manager{
         );
     }
 
+    public function updateMessage($data){
+        $sql = "
+            UPDATE post
+            SET message = :message
+            WHERE id_post = :id;
+        ";
+
+        return DAO::update($sql,$data);
+    }
+
 
     public function insertData(array $data){
         return $this->add($data);

@@ -100,12 +100,31 @@ class ForumController extends AbstractController implements ControllerInterface{
             header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$topic->getId());
         }
 
+        if (isset($_POST['submitEdit'])) {
+            $message = filter_input(INPUT_POST,'message',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $idPost = filter_input(INPUT_GET,'idPost',FILTER_VALIDATE_INT);
+            if ($idPost && ($message || $message!="")) {
+                $post = $postManager->findOneById($idPost);
+                if ($user->getId()==$post->getUser()->getId()) {
+                    $data=[
+                        'id'=>$idPost,
+                        'message' => $message
+                    ];
+                    if ($postManager->updateMessage($data)) {
+                        header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$topic->getId());
+                    }
+                }
+            }
+        }
+
         if (isset($_POST['deletePost'])) {
+            var_dump($_GET);
             $idPost = filter_input(INPUT_GET,'idPost',FILTER_VALIDATE_INT);
             if ($idPost) {
                 $post=$postManager->findOneById($idPost);
-                if ($post->getUser()==$user->getId()||SESSION::isAdmin()) {
+                if ($post->getUser()->getId()==$user->getId()||SESSION::isAdmin()) {
                     $postManager->delete($post->getId());
+                    header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$topic->getId());
                 }else {
                     SESSION::addFlash('error', "Vous n'avez pas la permission de supprimer ce message . . .");
                 }

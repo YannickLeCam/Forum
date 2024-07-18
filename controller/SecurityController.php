@@ -106,7 +106,7 @@ class SecurityController extends AbstractController{
                         }
                         else{
                             if (password_verify($data['password'],$user->getPassword() )) {
-                                SESSION::setUser($user);;
+                                SESSION::setUser($user);
                                 SESSION::addFlash("success","Vous etes bien connecté !");
                                 header('Location:./index.php');
                                 Session::setCsrfToken();
