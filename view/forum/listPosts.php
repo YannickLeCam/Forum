@@ -38,10 +38,16 @@ foreach($posts as $post ){ ?>
         </form>
         <button class="btn btn-warning editPostButton" data-post-id="$postId" data-topic-id="$topicId">Modifier</button>
 HTML;
-        }?>
-        <li>username : <?=$post->getUser()?></li>
-        <li>date de création : <?=$post->getCreationDate()?></li>
-        <li class='postMessage'><?=$post->getMessage()?></li>
+        }
+        if (SESSION::isAdmin()) {
+            echo "<li> <a href='./index.php?ctrl=security&action=detailUser&id={$post->getUser()->getId()}'>{$post->getUser()} </a></li>";
+        }
+        else {
+            echo "<li>{$post->getUser()}</li> ";
+        }
+        ?>
+        <li><?=$post->getCreationDate()?></li>
+        <li class='postMessage'><?=html_entity_decode($post->getMessage())?></li>
         <br>
     </div>
 <?php }?>
