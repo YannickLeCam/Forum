@@ -8,6 +8,11 @@ h1 {
     color: rgb(0, 122, 156);
 }
 
+body{
+    top:0
+    margin: 0;
+}
+
 .postContainer{
     display: flex;
     position: relative;
@@ -46,4 +51,19 @@ form.postMessage{
 #editMenuButton{
     display: flex;
     width: 100%;
+}
+
+
+/*
+======================================================================
+Navbar
+======================================================================
+*/
+
+.bg-body-tertiary{
+    background-color: rgb(215, 181, 247) !important;
+}
+
+#navbarNav{
+    justify-content: end;
 }
