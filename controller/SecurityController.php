@@ -101,19 +101,19 @@ class SecurityController extends AbstractController{
                     var_dump($user->getPassword());
                     var_dump(password_verify($data['password'],$user->getPassword() ));
                     if ($user) {
-                        if ($user->getBanned()!=null) {
-                            SESSION::addFlash('error', 'Vous etes bannit ! Vilain !');
-                        }
-                        else{
-                            if (password_verify($data['password'],$user->getPassword() )) {
+                        $now = new \DateTime();
+                        $bannedUntil = new \DateTime($user->getBanned());
+                        if ($user->getBanned() !== null && $now < $bannedUntil) {
+                            SESSION::addFlash('error', 'Vous êtes banni jusqu\'à ' . $bannedUntil->format('Y-m-d H:i:s'));
+                        } else {
+                            if (password_verify($data['password'], $user->getPassword())) {
                                 SESSION::setUser($user);
-                                SESSION::addFlash("success","Vous etes bien connecté !");
-                                header('Location:./index.php');
+                                SESSION::addFlash("success", "Vous êtes bien connecté !");
+                                header('Location: ./index.php');
                                 Session::setCsrfToken();
                                 die;
-                            }
-                            else {
-                                SESSION::addFlash('error','Email ou mot de passe semble etre incorrect');
+                            } else {
+                                SESSION::addFlash('error', 'Email ou mot de passe semble être incorrect');
                             }
                         }
                     }
@@ -267,14 +267,44 @@ class SecurityController extends AbstractController{
             }
         }
         if (isset($_POST['submitButtonBan'])) {
-            $verify = $userManager -> banUser($id);
-            if ($verify) {
-                SESSION::addFlash('success',"Vous avez bannie $userSelected !");
-                header('Location:./index.php?ctrl=security&action=userDetail&id='.$userSelected->getId());
-                die;
-            }else {
-                SESSION::addFlash('error','Il semble y avoir un probleme sur la mise en place du nouvel Admin . . .');
+            $number = filter_input(INPUT_POST,'number',FILTER_VALIDATE_INT);
+            $duration = filter_input(INPUT_POST,'duration' , FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if ($number&&$duration) {
+                $dateBan = new \DateTime(); // Current date and time
+
+                switch ($duration) {
+                    case 'hour':
+                        $interval = new \DateInterval("PT{$number}H");
+                        break;
+                    case 'day':
+                        $interval = new \DateInterval("P{$number}D");
+                        break;
+                    case 'month':
+                        $interval = new \DateInterval("P{$number}M");
+                        break;
+                    case 'year':
+                        $interval = new \DateInterval("P{$number}Y");
+                        break;
+                    case 'life':
+                        // Assuming an average human lifespan of 80 years for simplicity
+                        $interval = new \DateInterval("P80Y");
+                        break;
+                    default:
+                        // Handle unexpected duration values
+                        Session::addFlash('error','Attention le  bannissement a échoué suite a de mauvaise données rentré . . .');
+                        exit;
+                }
+                $dateBan->add($interval);
+                $verify = $userManager -> banUser($id,$dateBan);
+                if ($verify) {
+                    SESSION::addFlash('success',"Vous avez bannie $userSelected !");
+                    header('Location:./index.php?ctrl=security&action=userDetail&id='.$userSelected->getId());
+                    die;
+                }else {
+                    SESSION::addFlash('error','Il semble y avoir un probleme dans le bannisement . . .'.$verify);
+                }
             }
+
         }
 
         return [

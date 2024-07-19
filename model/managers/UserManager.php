@@ -78,14 +78,14 @@ class UserManager extends Manager{
         return DAO::update($sql,$params);
     }
 
-    public function banUser($id){
+    public function banUser($id,\DateTime $dateBan){
         $sql = "
         UPDATE user
         SET banned = :banned
         WHERE id_user = :id;
     ";
     $params=[
-        "banned"=>1,
+        "banned"=>$dateBan->format('Y-m-d H:i:s'),
         "id"=>$id
     ];
     

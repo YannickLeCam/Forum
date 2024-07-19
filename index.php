@@ -23,9 +23,7 @@ session_start();
 use App\Session as Session;
 
 Session::setCsrfToken();
-// if (!Session::getCsrfToken()) {
-//     $_SESSION['csrf_']=bin2hex(random_bytes(32));
-// }
+
 
 //---------REQUETE HTTP INTERCEPTEE-----------
 $ctrlname = DEFAULT_CTRL;//on prend le controller par défaut

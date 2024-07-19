@@ -67,6 +67,20 @@ class ForumController extends AbstractController implements ControllerInterface{
                 SESSION::addFlash('error',"Le topic n'existe pas ou plus . . .");
             }
         }
+        if (isset($_POST['deleteTopic'])) {
+            $idTopic = filter_input(INPUT_GET,'idTopic',FILTER_VALIDATE_INT);
+            if ($idTopic) {
+                $topic=$topicManager->findOneById($idTopic);
+                if ($topic->getUser()->getId()==$user->getId()||SESSION::isAdmin()) {
+                    $topicManager->delete($topic->getId());
+                    header('Location:./index.php?ctrl=forum&action=listTopicsByCategory&id='.$id);
+                }else {
+                    SESSION::addFlash('error', "Vous n'avez pas la permission de supprimer ce message . . .");
+                }
+            }else {
+                SESSION::addFlash('error',"Le topic n'existe pas ou plus . . .");
+            }
+        }
 
         return [
             "view" => VIEW_DIR."forum/listTopics.php",

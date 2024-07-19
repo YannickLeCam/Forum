@@ -31,6 +31,14 @@ HTML;
 if ($userSelected->getBanned()==null) {
     echo <<<HTML
     <form action="./index.php?ctrl=security&action=userDetail&id=1" method="post">
+        <input type="number" name="number" class="" id="">
+        <select name="duration" id="">
+            <option value="hour">heures</option>
+            <option value="day">jours</option>
+            <option value="month">mois</option>
+            <option value="year">année</option>
+            <option value="life">vie</option>
+        </select>
         <input type="submit" name="submitButtonBan" class="btn btn-danger" value="Bannir l'utilisateur">
     </form>
 HTML;
