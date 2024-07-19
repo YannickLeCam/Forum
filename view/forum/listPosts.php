@@ -9,6 +9,24 @@ $user = SESSION::getUser();
 <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
 
 <?php
+$idTopic = $topic->getId();
+if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) {
+    if ($topic->getClosed() == 0) {
+        echo <<<HTML
+        <form action="index.php?ctrl=forum&action=listPostsByTopic&id=$idTopic" method="post">
+            <input type="submit" name="closeTopic" class="btn btn-warning" value="Fermer le topic">
+        </form>
+    HTML;
+    }if ($topic->getClosed() == 1) {
+        echo <<<HTML
+        <form action="index.php?ctrl=forum&action=listPostsByTopic&id=$idTopic" method="post">
+            <input type="submit" name="closeTopic" class="btn btn-success" value="Réouvrir le topic">
+        </form>
+    HTML;
+    }
+}
+
+
 foreach($posts as $post ){ ?>
     <div class="postContainer">
         <?php if ($user->getId()==$post->getUser()->getId() || SESSION::isAdmin()) {
@@ -21,7 +39,6 @@ foreach($posts as $post ){ ?>
         <button class="btn btn-warning editPostButton" data-post-id="$postId" data-topic-id="$topicId">Modifier</button>
 HTML;
         }?>
-
         <li>username : <?=$post->getUser()?></li>
         <li>date de création : <?=$post->getCreationDate()?></li>
         <li class='postMessage'><?=$post->getMessage()?></li>
@@ -36,13 +53,19 @@ HTML;
     });
 </script>
 
-<form " action="index.php?ctrl=forum&action=listPostsByTopic&id=<?=$topic->getId()?>"" method="post" onsubmit="submitForm()">
-    <label for="default-editor">Votre message :</label>
-    <textarea id="default-editor" name="message" placeholder="Entrer votre message ici . . .">
-    </textarea>
+<?php
+    if ($topic->getClosed()==0) {
+        echo <<<HTML
+    <form " action="index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}"" method="post" onsubmit="submitForm()">
+        <label for="default-editor">Votre message :</label>
+        <textarea id="default-editor" name="message" placeholder="Entrer votre message ici . . .">
+        </textarea>
+        <input type="submit"  name="submitNewPost" value="Publier">
+    </form>
+HTML;
+    }
+?>
 
-    <input type="submit"  name="submitNewPost" value="Publier">
-</form>
 
 <script src="./public/js/editPosts.js"></script>
 

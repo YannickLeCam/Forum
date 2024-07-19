@@ -4,7 +4,9 @@ namespace Controller;
 use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
+use App\DAO;
 use DateTime;
+use Model\Entities\Category;
 use Model\Entities\Post;
 use Model\Entities\Topic;
 use Model\Entities\User;
@@ -131,6 +133,35 @@ class ForumController extends AbstractController implements ControllerInterface{
             }
         }
 
+        if (isset($_POST['closeTopic'])) {
+            $sql = "
+            UPDATE topic
+            SET closed = :closed
+            WHERE id_topic = :id;
+            ";
+            var_dump($topic);
+            if ($topic->getClosed()==0) {
+
+                $params = [
+                    'closed' => 1,
+                    'id' => $topic->getId()
+                ];
+                if(DAO::update($sql,$params)){
+                    Session::addFlash('sucess','Vous avez bien fermé le topic !');
+                    header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$topic->getId());
+                }
+            }if ($topic->getClosed()==1) {
+                $params = [
+                    'closed' => 0,
+                    'id' => $topic->getId()
+                ];
+                if(DAO::update($sql,$params)){
+                    Session::addFlash('sucess','Vous avez bien réouvert le topic !');
+                    header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$topic->getId());
+                }
+            }
+        }
+
         if (isset($_POST['deletePost'])) {
             var_dump($_GET);
             $idPost = filter_input(INPUT_GET,'idPost',FILTER_VALIDATE_INT);
@@ -138,6 +169,25 @@ class ForumController extends AbstractController implements ControllerInterface{
                 $post=$postManager->findOneById($idPost);
                 if ($post->getUser()->getId()==$user->getId()||SESSION::isAdmin()) {
                     $postManager->delete($post->getId());
+                    $sql = "
+                        SELECT COUNT(id_post) AS posts
+                        FROM post
+                        WHERE topic_id = :topic_id;
+                    ";
+                    $params = ['topic_id'=>$id];
+                    $selectReturn=DAO::select($sql,$params,false);
+                    $posts = $selectReturn['posts'];
+                    if ($posts==0) {
+                        $category = $topic->getCategory()->getId();
+                        $topicManager = new TopicManager();
+                        $verify=$topicManager->delete($id);
+                        if ($verify) {
+                            Session::addFlash('success','Le topic et le post a été supprimé !');
+                            header('Location:./index.php?ctrl=forum&action=listTopicsByCategory&id='.$category);
+                            die;
+                        }
+                    }
+
                     header('Location:./index.php?ctrl=forum&action=listPostsByTopic&id='.$topic->getId());
                 }else {
                     SESSION::addFlash('error', "Vous n'avez pas la permission de supprimer ce message . . .");
