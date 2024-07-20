@@ -70,15 +70,6 @@ use APP\Session;
                             </div>
                         </div>
                     </nav>
-                    <nav>
-                        <div id="nav-left">
-                            
-
-                        </div>
-                        <div id="nav-right">
-
-                        </div>
-                    </nav>
                 </header>
                 
                 <main id="forum">
