@@ -1,6 +1,7 @@
 <?php
 namespace Model\Entities;
 
+use App\DAO;
 use App\Entity;
 
 /*
@@ -11,12 +12,34 @@ final class Category extends Entity{
 
     private $id;
     private $name;
+    private $nbTopics;
 
     // chaque entité aura le même constructeur grâce à la méthode hydrate (issue de App\Entity)
     public function __construct($data){         
-        $this->hydrate($data);        
+        $this->hydrate($data); 
+        $this->setNbTopics();
     }
 
+    /**
+     * Get the value of NbTopics
+     */ 
+    public function getNbTopics(){
+        return $this->nbTopics;
+    }
+
+    public function setNbTopics(){
+        $sql = "
+            SELECT COUNT(id_topic) AS NbTopics
+            FROM topic
+            WHERE category_id = :id;
+        ";
+        $params = [
+            "id"=>$this->id,
+        ];
+        $select=DAO::select($sql,$params,false);
+        $this->nbTopics = $select['NbTopics'];
+        return $this;
+    }
     /**
      * Get the value of id
      */ 
