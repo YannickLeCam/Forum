@@ -5,11 +5,9 @@ $posts= $result['data']['posts'];
 $user = SESSION::getUser();
 $idTopic = $topic->getId();
 ?>
-
-<a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
-
-<?php
-
+<div id="menuPostList">
+    <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
+    <?php
 if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) {
     if ($topic->getClosed() == 0) {
         echo <<<HTML
@@ -26,6 +24,10 @@ if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) {
     }
 }
 ?>
+
+</div>
+
+
 <?php
 foreach($posts as $post ){ ?>
     <div class="postContainer">
