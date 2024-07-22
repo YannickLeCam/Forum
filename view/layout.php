@@ -28,45 +28,51 @@ use APP\Session;
                             <span class="navbar-toggler-icon"></span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./index.php">Accueil</a>                                
-                                </li>
-                            <?php
-                                // si l'utilisateur est connecté 
-                                if(App\Session::getUser()){
-                                    ?>
+                                <?php if (App\Session::getUser()) {?>
+                                    <form class="d-flex" action="index.php?ctrl=forum&action=research" method="post" role="search">
+                                        <input class="form-control me-2" type="search" name="contain" placeholder="Rechercher" aria-label="Search">
+                                        <button class="btn btn-outline-dark" name="submitResearch" type="submit">Rechercher</button>
+                                    </form>
+                                <?php } ?>
+                                <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="index.php?ctrl=forum&action=index">Liste des catégories</a>
-                                    </li>
-                                    <?php
-                                    if(App\Session::isAdmin()){?>
-                                        <a class="nav-link" href="index.php?ctrl=security&action=listUser">Liste Utilisateur</a>
-                                    <?php } ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.php?ctrl=security&action=profile"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.php?ctrl=security&action=logout">Déconnexion</a>
-                                    </li>
-                                    <li class="nav-item">
-
-                                    <?php
-                                }
-                                else{
-                                    ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.php?ctrl=security&action=login">Connexion</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.php?ctrl=security&action=register">Inscription</a>
+                                        <a class="nav-link" href="./index.php">Accueil</a>                                
                                     </li>
                                 <?php
-                                }
-                            ?>
+                                    // si l'utilisateur est connecté 
+                                    if(App\Session::getUser()){
+                                        ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="index.php?ctrl=forum&action=index">Liste des catégories</a>
+                                        </li>
+                                        <?php
+                                        if(App\Session::isAdmin()){?>
+                                            <a class="nav-link" href="index.php?ctrl=security&action=listUser">Liste Utilisateur</a>
+                                        <?php } ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="index.php?ctrl=security&action=profile"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="index.php?ctrl=security&action=logout">Déconnexion</a>
+                                        </li>
+                                        <li class="nav-item">
 
-                                </li>
-                            </ul>
+                                        <?php
+                                    }
+                                    else{
+                                        ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="index.php?ctrl=security&action=login">Connexion</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="index.php?ctrl=security&action=register">Inscription</a>
+                                        </li>
+                                    <?php
+                                    }
+                                ?>
+
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </nav>

@@ -253,4 +253,31 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
+
+    public function research(){
+        $user=$this->verifyConnectedUser();
+        if (isset($_POST['submitResearch'])) {
+            $contain = filter_input(INPUT_POST,'contain',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $topicManager=new TopicManager();
+            $categoryManager = new CategoryManager();
+ 
+            if ($contain) {
+                $topics = $topicManager->researchTopics($contain);
+                $categories = $categoryManager->researchCategories($contain);
+            }
+            return [
+                "view" => VIEW_DIR."forum/research.php",
+                "meta_description"=>"recherche de \"$contain\"",
+                "data" => [
+                    "categories" => $categories,
+                    "topics" => $topics,
+                    "user" => $user
+                ]
+            ];
+        }else {
+            header('Location:./index.php');
+            die;
+        }
+
+    }
 }

@@ -13,4 +13,29 @@ class CategoryManager extends Manager{
     public function __construct(){
         parent::connect();
     }
+
+
+    /**
+     * This function return one Category list instance where name $contain 
+     * 
+     * @param string $contain filtered
+     * 
+     * @return array[Category] or null 
+     */
+    public function researchCategories(string $contain){
+        $contain = '%'.$contain.'%';
+        $sql = "
+            SELECT *
+            FROM category
+            WHERE name LIKE :contain;
+        ";
+        $params = [
+            "contain"=>$contain
+        ];
+
+        return $this->getMultipleResults(
+            DAO::select($sql,$params),
+            $this->className
+        );
+    }
 }

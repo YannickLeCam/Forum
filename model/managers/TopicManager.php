@@ -40,6 +40,28 @@ class TopicManager extends Manager{
             $this->className
         );
     }
+    /**
+     * This function return one Topic List instance where name $contain 
+     * 
+     * @param string $contain filtered
+     * 
+     * @return array[Topic] or null 
+     */
+    public function researchTopics($contain){
+        $contain = '%'.$contain.'%';
+        $sql = "
+            SELECT *
+            FROM topic
+            WHERE title LIKE :contain;
+        ";
+        $params = [
+            "contain"=>$contain
+        ];
+        return $this->getMultipleResults(
+            DAO::select($sql,$params),
+            $this->className
+        );
+    }
 
     
     public function insertTopic($data){

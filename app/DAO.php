@@ -101,5 +101,6 @@ abstract class DAO{
         catch(\Exception $e){
             echo $e->getMessage();
         }
+        return null;
     }
 }
