@@ -7,6 +7,11 @@ $page= $result['data']['page'];
 var_dump($nbPages,$page);
 $user = SESSION::getUser();
 $idTopic = $topic->getId();
+if ($page == null) {
+    $page=1;
+}
+$pagePrev = $page-1;
+$pageSuiv = $page+1;
 ?>
 <div id="menuPostList">
     <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>

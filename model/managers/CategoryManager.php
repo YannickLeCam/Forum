@@ -71,7 +71,7 @@ class CategoryManager extends Manager{
         return $select['nbTopics'];
     }
 
-    public function lastTopic($id):Topic {
+    public function lastTopic($id):?Topic {
         $sql = "
             SELECT topic.id_topic
             FROM topic
@@ -88,7 +88,6 @@ class CategoryManager extends Manager{
             "id"=>$id,
         ];
         $select=DAO::select($sql,$params,false);
-
         if (isset($select['id_topic'])) {
             $topicManager = new TopicManager();
             return $topicManager->findOneById($select['id_topic']);

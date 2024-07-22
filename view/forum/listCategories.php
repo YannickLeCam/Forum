@@ -16,7 +16,14 @@
         <tr>
             <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"><?= $category->getName() ?></a></td>
             <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"> Nombres de topic : <?=$category->getNbTopics()?> <br> Nombres de posts : <?=$category->getNbPosts()?></a></td>
-            <td><a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $lastTopic->getId() ?>"> Derniere activitée : <?=$lastTopic->getTitle()?></a></td>
+            <?php
+            if ($lastTopic!==null) {?>
+                <td><a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $lastTopic->getId() ?>"> Derniere activitée : <?=$lastTopic->getTitle()?></a></td>
+
+            <?php }else { ?>
+                <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"></a></td>
+            <?php }
+            ?>
         </tr>
     <?php } ?>
     </table>
