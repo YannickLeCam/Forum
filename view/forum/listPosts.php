@@ -10,8 +10,7 @@ $idTopic = $topic->getId();
 if ($page == null) {
     $page=1;
 }
-$pagePrev = $page-1;
-$pageSuiv = $page+1;
+
 ?>
 <div id="menuPostList">
     <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
@@ -70,22 +69,28 @@ HTML;
     </div>
 <?php }?>
 
+<?php
+$pagePrev = $page-1;
+$pageSuiv = $page+1;
+?>
+
+
 <nav aria-label="...">
   <ul class="pagination">
     <li class="page-item <?=($page==null || $page == 1) ? "disable" : ""?>">
-        <?=($page==null || $page == 1) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id=1&page=$page' class='page-link'>"?> Previous <?=($page==null || $page == 1) ? "</span>" : "</a>"?>
+        <?=($page==null || $page == 1) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}&page=$pagePrev' class='page-link'>"?> Previous <?=($page==null || $page == 1) ? "</span>" : "</a>"?>
     </li>
     <?php
         for ($i=1; $i <= $nbPages; $i++) { 
             if ($page == $i) {
-                echo "<li class='page-item active'><a class='page-link' href='index.php?ctrl=forum&action=listPostsByTopic&id=1&page=$i'>$i</a></li>";
+                echo "<li class='page-item active'><a class='page-link' href='index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}&page=$i'>$i</a></li>";
             }else {
-                echo "<li class='page-item'><a class='page-link' href='index.php?ctrl=forum&action=listPostsByTopic&id=1&page=$i'>$i</a></li>";
+                echo "<li class='page-item'><a class='page-link' href='index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}&page=$i'>$i</a></li>";
             }
         }
     ?>
     <li class="page-item <?=($page==$nbPages) ? "disable" : ""?>">
-      <?=($page==$nbPages) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id=1&page=$page' class='page-link'>"?> Next <?=($page==$nbPages) ? "</span>" : "</a>"?>
+      <?=($page==$nbPages) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}&page=$pageSuiv' class='page-link'>"?> Next <?=($page==$nbPages) ? "</span>" : "</a>"?>
     </li>
   </ul>
 </nav>

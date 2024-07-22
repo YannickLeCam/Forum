@@ -106,7 +106,7 @@ class ForumController extends AbstractController implements ControllerInterface{
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
         $page = filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
-        $nbPages = (int) round($topicManager->nbPostInTopic($id)/5)+1;
+        $nbPages = intdiv($topicManager->nbPostInTopic($id),5)+1;
         $posts = $postManager->findPostsByTopic($id,$page);
         if (isset($_POST['submitNewPost'])) {
             # data traitements if error all data in $data
