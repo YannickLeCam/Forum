@@ -65,12 +65,34 @@ HTML;
     </div>
 <?php }?>
 
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item <?=($page==null || $page == 1) ? "disable" : ""?>">
+        <?=($page==null || $page == 1) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id=1&page=$page' class='page-link'>"?> Previous <?=($page==null || $page == 1) ? "</span>" : "</a>"?>
+    </li>
+    <?php
+        for ($i=1; $i <= $nbPages; $i++) { 
+            if ($page == $i) {
+                echo "<li class='page-item active'><a class='page-link' href='index.php?ctrl=forum&action=listPostsByTopic&id=1&page=$i'>$i</a></li>";
+            }else {
+                echo "<li class='page-item'><a class='page-link' href='index.php?ctrl=forum&action=listPostsByTopic&id=1&page=$i'>$i</a></li>";
+            }
+        }
+    ?>
+    <li class="page-item <?=($page==$nbPages) ? "disable" : ""?>">
+      <?=($page==$nbPages) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id=1&page=$page' class='page-link'>"?> Next <?=($page==$nbPages) ? "</span>" : "</a>"?>
+    </li>
+  </ul>
+</nav>
 
 <script>
     tinymce.init({
         selector: 'textarea#default-editor'
     });
 </script>
+
+
+
 
 <?php
     if ($topic->getClosed()==0) {
