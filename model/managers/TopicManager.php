@@ -63,6 +63,19 @@ class TopicManager extends Manager{
         );
     }
 
+    public function nbPostInTopic(int $id):int{
+        $sql = "
+            SELECT COUNT(id_post) AS nbPosts
+            FROM post
+            WHERE topic_id = :id;
+        ";
+        $params = [
+            "id"=>$id
+        ];
+        $select = DAO::select($sql,$params,false);
+
+        return $select['nbPosts'];
+    }
     
     public function insertTopic($data){
         return $this->add($data);

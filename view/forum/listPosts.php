@@ -2,6 +2,9 @@
 use APP\Session;
 $topic= $result['data']['topic'];
 $posts= $result['data']['posts'];
+$nbPages= $result['data']['nbPages'];
+$page= $result['data']['page'];
+var_dump($nbPages,$page);
 $user = SESSION::getUser();
 $idTopic = $topic->getId();
 ?>
