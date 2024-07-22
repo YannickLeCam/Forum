@@ -133,7 +133,12 @@ table a {
     padding: 3% 10%;
 }
 
-table a:hover{
+table tr:hover td{
     background-color: rgb(201, 155, 245);
     transition: 0.5s;
 }
+
+table tr td:last-child:hover{
+    background-color: rgb(201, 155, 245);
+    transition: 0.5s;
+} 

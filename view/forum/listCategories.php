@@ -9,12 +9,14 @@
 
     <table>
     <?php
-    foreach($categories as $category ){ ?>
+    foreach($categories as $categoryWithLastTopic ){ 
+        $category = $categoryWithLastTopic[0];
+        $lastTopic = $categoryWithLastTopic[1];
+        ?>
         <tr>
             <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"><?= $category->getName() ?></a></td>
-            <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"> Nombres de topic : <?=$category->getNbTopics()?></a></td>
-            <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"> Nombres de ports : <?=$category->getNbPosts()?></a></td>
-            <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"> Dernier topic modifié <?=$category->getNbPosts()?></a></td>
+            <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"> Nombres de topic : <?=$category->getNbTopics()?> <br> Nombres de posts : <?=$category->getNbPosts()?></a></td>
+            <td><a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $lastTopic->getId() ?>"> Derniere activitée : <?=$lastTopic->getTitle()?></a></td>
         </tr>
     <?php } ?>
     </table>
