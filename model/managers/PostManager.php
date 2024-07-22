@@ -14,15 +14,20 @@ class PostManager extends Manager{
         parent::connect();
     }
 
-    public function findPostsByTopic($id) {
-
+    public function findPostsByTopic($id,$page) {
+        if ($page==null) {
+            $page=1;
+        }
+        $offset = ($page-1) * 5;
         $sql = "SELECT * 
-                FROM ".$this->tableName." t 
-                WHERE t.topic_id = :id";
-       
+                FROM ".$this->tableName." p 
+                WHERE p.topic_id = :id
+                LIMIT 5 OFFSET ". $offset;
         // la requête renvoie plusieurs enregistrements --> getMultipleResults
         return  $this->getMultipleResults(
-            DAO::select($sql, ['id' => $id]), 
+            DAO::select($sql, [
+                'id' => $id
+            ]), 
             $this->className
         );
     }

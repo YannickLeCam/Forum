@@ -105,8 +105,8 @@ class ForumController extends AbstractController implements ControllerInterface{
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
-        $posts = $postManager->findPostsByTopic($id);
-
+        $page = filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
+        $posts = $postManager->findPostsByTopic($id,$page);
         if (isset($_POST['submitNewPost'])) {
             # data traitements if error all data in $data
             $postManager = new PostManager();
@@ -208,7 +208,8 @@ class ForumController extends AbstractController implements ControllerInterface{
             "meta_description" => "Liste des posts par topic : ".$topic,
             "data" => [
                 "topic" => $topic,
-                "posts" => $posts
+                "posts" => $posts,
+                "page" => $page
             ]
         ];
     }

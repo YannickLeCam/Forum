@@ -34,7 +34,7 @@ foreach($posts as $post ){ ?>
         <div class="postUserInfo">
             <?php 
             if (SESSION::isAdmin()) {
-                echo " <a href='./index.php?ctrl=security&action=detailUser&id={$post->getUser()->getId()}'>{$post->getUser()} </a>";
+                echo " <a href='./index.php?ctrl=security&action=userDetail&id={$post->getUser()->getId()}'>{$post->getUser()} </a>";
             }
             else {
                 echo "{$post->getUser()} ";
