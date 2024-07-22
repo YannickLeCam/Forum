@@ -13,11 +13,34 @@ final class Category extends Entity{
     private $id;
     private $name;
     private $nbTopics;
+    private $nbPosts;
+    private $dernierTopicEdit;
 
     // chaque entité aura le même constructeur grâce à la méthode hydrate (issue de App\Entity)
     public function __construct($data){         
         $this->hydrate($data); 
         $this->setNbTopics();
+        $this->setNbPosts();
+    }
+
+    public function setNbPosts(){
+        $sql = "
+            SELECT COUNT(id_post) AS NbPosts
+            FROM topic
+            JOIN post
+            ON post.topic_id = topic.id_topic
+            WHERE category_id = :id;
+        ";
+        $params = [
+            "id"=>$this->id,
+        ];
+        $select=DAO::select($sql,$params,false);
+        $this->nbPosts = $select['NbPosts'];
+        return $this;
+    }
+
+    public function getNbPosts(){
+        return $this->nbPosts;
     }
 
     /**

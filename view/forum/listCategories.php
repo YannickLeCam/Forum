@@ -12,7 +12,9 @@
     foreach($categories as $category ){ ?>
         <tr>
             <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"><?= $category->getName() ?></a></td>
-            <td> Nombres de topic : <?=$category->getNbTopics()?></td>
+            <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"> Nombres de topic : <?=$category->getNbTopics()?></a></td>
+            <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"> Nombres de ports : <?=$category->getNbPosts()?></a></td>
+            <td><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"> Dernier topic modifié <?=$category->getNbPosts()?></a></td>
         </tr>
     <?php } ?>
     </table>
