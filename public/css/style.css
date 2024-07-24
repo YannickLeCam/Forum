@@ -137,6 +137,36 @@ form.postMessage{
     padding-left: 0;
 }
 
+.pagination{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1%;
+}
+
+.page-link{
+    background-color: white !important;
+    color: var(--main);
+    border: none;
+}
+.page-link:hover{
+    color: white;
+    background-color: var(--main) !important;
+}
+.page-link:active{
+    box-shadow: none;
+}
+
+.disabled>.page-link{
+    background-color: var(--mainLight) !important;
+    border: none;
+}
+
+.active>.page-link{
+    background-color: var(--main) !important;
+    border: none;
+}
+
 .submitMessage{
     margin: 2%;
     width: 40vw;
