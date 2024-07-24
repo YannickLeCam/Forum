@@ -62,6 +62,11 @@ class ForumController extends AbstractController implements ControllerInterface{
         $category = $categoryManager->findOneById($id);
         $topics = $topicManager->findTopicsByCategory($id);
 
+        $topicsWithLastPost = [];
+        foreach ($topics as $key => $topic) {
+            $topicsWithLastPost[$key] = [$topic,$topicManager->lastPost($topic->getId())];
+        }
+
         if (isset($_POST['submitDeleteTopic'])) {
             $idTopic = filter_input(INPUT_GET,'idTopic',FILTER_VALIDATE_INT);
             if ($idTopic) {
@@ -95,7 +100,8 @@ class ForumController extends AbstractController implements ControllerInterface{
             "meta_description" => "Liste des topics par catégorie : ".$category,
             "data" => [
                 "category" => $category,
-                "topics" => $topics
+                "topics" => $topicsWithLastPost,
+                "user" => $user
             ]
         ];
     }

@@ -4,7 +4,7 @@
     --black : black;
     --bgElem : white;
     --secondaryLight : rgb(185, 214, 152);
-    --mainLight : rgb(207, 186, 170);
+    --mainLight : rgba(207, 186, 170,0.8);
 }
 
 * {
@@ -21,19 +21,31 @@ body{
     top:0;
     margin: 0;
     background-color: #e6e6e6;
+    background-color: var(--main);
 }
 
 #wrapper{
+    height: 300px; /* Ajustez la hauteur selon vos besoins */
+    background: 
+    linear-gradient(to bottom, transparent, rgb(92, 67, 24)), /* Dégradé linéaire */
+    url('../asset/bg.jpg') no-repeat top center; /* Image de fond */
+    background-size:cover; /* Ajustez selon vos besoins */
     margin-top: 3.5rem;
     padding-top: 5rem;
     position: relative;
     background-color: var(--main);
-    width: 100vw;
+    max-width: 100vw;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 1;
 }
+
+
 
 #forum{
     background-color: var(--mainLight);
-    margin: 0 5rem 3rem;
+    margin: 20rem 5rem 3rem;
+    border-radius: 12px;
 }
 .postContainer{
     display: flex;
@@ -104,12 +116,11 @@ Navbar
 header{
     position: fixed;
     top: 0;
-    width: 100%;
+    width: 100vw;
     z-index: 99;
 }
 
-
-.bg-body-tertiary{
+.navbar-dark{
     background-color: var(--black) !important;
 }
 
@@ -157,6 +168,30 @@ header{
 
 /*
 ======================================================================
+Footer
+======================================================================
+*/
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer a,p{
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+footer a:hover{
+    color: var(--secondary);
+    transition: 0.3s;
+}
+
+
+/*
+======================================================================
 Table
 ======================================================================
 */
@@ -171,11 +206,11 @@ table{
     overflow: hidden;
 }
 
-#tableCategory{
+#tableCategory,#tableTopics{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5% 5%;
+    padding: 2% 2%;
 }
 
 thead td {
@@ -212,6 +247,7 @@ tbody td a:hover{
 
 tbody td:first-child {
     text-align: justify;
+    padding: 1% 3%;
 }
 
 tbody td:first-child a{
@@ -223,7 +259,18 @@ tbody td:first-child a:hover{
     transition: 0.3s;
 }
 
-.titleCategory{
+.titleCategory,.titleTopic{
     font-weight: 700;
     font-size: x-large;
+}
+
+/*
+======================================================================
+Topics List
+======================================================================
+*/
+#menuTopicsList{
+    display: flex;
+    justify-content: space-between;
+    padding: 1% 2%;
 }

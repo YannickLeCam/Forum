@@ -77,6 +77,28 @@ class TopicManager extends Manager{
         return $select['nbPosts'];
     }
     
+    public function lastPost($id){
+        $sql = "
+            SELECT id_post
+            FROM post p
+            WHERE topic_id = :id
+            ORDER BY creationDate DESC
+            LIMIT 1;
+        ";
+        $params = [
+            "id" =>$id
+        ];
+
+        $select=DAO::select($sql,$params,false);
+        
+        if ($select) {
+            $postManager = new PostManager();
+            return $postManager->findOneById($select['id_post']);
+        }else {
+            return null;
+        }
+    }
+
     public function insertTopic($data){
         return $this->add($data);
     }
