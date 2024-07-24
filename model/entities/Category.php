@@ -15,12 +15,22 @@ final class Category extends Entity{
     private $name;
     private $nbTopics;
     private $nbPosts;
+    private $description;
 
     // chaque entité aura le même constructeur grâce à la méthode hydrate (issue de App\Entity)
     public function __construct($data){ 
         $this->hydrate($data);
     }
 
+
+    public function setDescription($description){
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getDescription(){
+        return $this->description;
+    }
 
     public function setNbPosts($nbPosts){
         $this->nbPosts = $nbPosts;

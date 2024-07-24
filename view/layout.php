@@ -31,7 +31,7 @@ use APP\Session;
                                 <?php if (App\Session::getUser()) {?>
                                     <form class="d-flex" action="index.php?ctrl=forum&action=research" method="post" role="search">
                                         <input class="form-control me-2" type="search" name="contain" placeholder="Rechercher" aria-label="Search">
-                                        <button class="btn btn-outline-dark" name="submitResearch" type="submit">Rechercher</button>
+                                        <button class="btn btn-outline-light" name="submitResearch" type="submit">Rechercher</button>
                                     </form>
                                 <?php } ?>
                                 <ul class="navbar-nav">

@@ -69,7 +69,7 @@ class SecurityController extends AbstractController{
                     if ($idNewUser) {
                         $session->addFlash("success","Votre compte a bien été enregistré !");
                     }else {
-                        $session->addFlash("error","Il semble y avoir un probleme dans la BDD");
+                        $session->addFlash("error","Il semble y avoir un probleme dans la BDD $idNewUser");
                     }
                 }
 

@@ -99,8 +99,7 @@ class CategoryManager extends Manager{
     public function findCategoriesWithCount() {
 
         $sql = "SELECT 
-                    c.id_category,
-                    c.name,
+                    c.*,
                     COUNT(DISTINCT t.id_topic) AS nbTopics,
                     COUNT(p.id_post) AS nbPosts
                 FROM 
