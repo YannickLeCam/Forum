@@ -12,6 +12,7 @@ if ($page == null) {
 
 ?>
 <div id="menuPostList">
+
     <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="transparentButton"><i class="fa-solid fa-arrow-left"></i></a>
     <?php
 if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) {
@@ -33,20 +34,23 @@ if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) {
 
 </div>
 
-
+<div class="topicTitle">
+        <h2><?=$topic?></h2>
+</div>
+<div id="postsList">
 <?php
 foreach($posts as $post ){ ?>
     <div class="postContainer">
         <div class="postUserInfo">
             <?php 
             if (SESSION::isAdmin()) {
-                echo " <a href='./index.php?ctrl=security&action=userDetail&id={$post->getUser()->getId()}'>{$post->getUser()} </a>";
+                echo " <a class'username' href='./index.php?ctrl=security&action=userDetail&id={$post->getUser()->getId()}'>{$post->getUser()} </a>";
             }
             else {
-                echo "{$post->getUser()} ";
+                echo "<span class='username'>{$post->getUser()} </span>";
             }
             ?>
-            <?="Date de parution : ".$post->getCreationDate()?>
+            <?=" - ".$post->getCreationDate()?>
             <?php
             if ($user->getId()==$post->getUser()->getId() || SESSION::isAdmin()) {
                 $postId = $post->getId();
@@ -54,9 +58,9 @@ foreach($posts as $post ){ ?>
                 echo <<<HTML
                 <div class="menuButtonUser">
                     <form action="./index.php?ctrl=forum&action=listPostsByTopic&id=$topicId&idPost=$postId" method="post">
-                        <button type="submit" name="deletePost" class="btn btn-danger"> <i class='fa-solid fa-trash'></i> </button>
+                        <button type="submit" name="deletePost" class="transparentButton deletePostButton"> <i class='fa-solid fa-trash'></i> </button>
                     </form>
-                    <button class="btn btn-warning editPostButton" data-post-id="$postId" data-topic-id="$topicId"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
+                    <button class="transparentButton editPostButton" data-post-id="$postId" data-topic-id="$topicId"><i class="fa-solid fa-pen-to-square" ></i></button>
                 </div>
 HTML;
             }
@@ -67,7 +71,7 @@ HTML;
         </div>
     </div>
 <?php }?>
-
+</div>
 <?php
 $pagePrev = $page-1;
 $pageSuiv = $page+1;
@@ -107,11 +111,11 @@ $pageSuiv = $page+1;
 <?php
     if ($topic->getClosed()==0) {
         echo <<<HTML
-    <form " action="index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}"" method="post" onsubmit="submitForm()">
+    <form class='formNewMessage' action="index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}"" method="post" onsubmit="submitForm()">
         <label for="default-editor">Votre message :</label>
         <textarea id="default-editor" name="message" placeholder="Entrer votre message ici . . .">
         </textarea>
-        <input type="submit"  name="submitNewPost" value="Publier">
+        <input type="submit"  name="submitNewPost" class="submitMessage" value="Publier">
     </form>
 HTML;
     }

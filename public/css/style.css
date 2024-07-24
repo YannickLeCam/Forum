@@ -71,11 +71,11 @@ PostList
 */
 .postContainer{
     display: flex;
+    flex-direction: column;
     position: relative;
     margin: 1.5% 2.5%;
-    border-radius: 10px;
     border: 2px gray solid;
-    background-color: rgb(234, 220, 247);
+    background-color: var(--bgElem);
     overflow: hidden;
 }
 
@@ -83,22 +83,41 @@ PostList
     width: 100%;
 }
 
+.username{
+    text-decoration: none;
+    color: var(--secondary);
+    font-weight: 700;
+    margin-right: 1%;
+}
+a.username{
+    text-decoration: underline;
+}
+
 .postUserInfo{
     display: flex;
-    padding: 1% 2%;
-    flex-direction: column;
-    border-right: 2px gray solid;
-    background-color: rgb(215, 181, 247);
-    justify-content: center;
+    border-bottom: 1px var(--secondaryLight) solid;
+    padding-left: 1%;
+    height: 5vh;
     align-items: center;
 }
 
+.topicTitle{
+    width: 95%;
+    background-color: var(--secondary);
+    color: white;
+    text-align: center;
+    margin: 0 2.5%;
+    padding: 2% 0;
+}
+
+
 .menuButtonUser{
+    position: absolute;
+    right: 2%;
     display: flex;
-    width: 100%;
+    gap: 10%;
     justify-content: center;
     align-items: center;
-    gap: 20%;
 }
 
 #menuPostList{
@@ -112,10 +131,58 @@ PostList
     padding-left: 0.2%;
     width: 100%;
     height: 100%;
-    
+    color: var(--black);
 }
 form.postMessage{
     padding-left: 0;
+}
+
+.submitMessage{
+    margin: 2%;
+    width: 40vw;
+    background-color: var(--secondary);
+    color: white;
+    justify-self: center;
+    border: none;
+    height: 5vh;
+    transition: 0.3s;
+}
+
+.submitMessage:hover{
+    background-color: var(--secondaryLight);
+    transition: 0.3s;
+}
+
+.formNewMessage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tox-tinymce{
+    width: 96%;
+}
+
+.editPostButton{
+    color: var(--secondary);
+    font-size: 3vh;
+    padding: 0
+}
+.editPostButton:hover{
+    color:var(--secondaryLight);
+    transform: scale(1);
+    transition: 0.3s;
+}
+
+.deletePostButton{
+    color: rgb(255, 128, 128);
+    font-size: 3vh;
+    padding: 0
+}
+.deletePostButton:hover{
+    color: rgb(255, 103, 103);
+    transform: scale(1);
+    transition: 0.3s;
 }
 
 #editMenuButton{
@@ -127,7 +194,9 @@ form.postMessage{
     background-color: rgb(234, 220, 247);
     color: #333 !important;
 }
-
+#forum .postContainer:first-child{
+    margin-top: 0;
+}
 
 /*
 ======================================================================
@@ -200,7 +269,7 @@ footer{
     align-items: center;
 }
 
-footer a,p{
+footer a,footer p{
     text-decoration: none;
     color: white;
     transition: 0.3s;
