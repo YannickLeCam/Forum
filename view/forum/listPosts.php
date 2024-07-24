@@ -81,7 +81,7 @@ $pageSuiv = $page+1;
 <nav aria-label="...">
   <ul class="pagination">
     <li class="page-item <?=($page==null || $page == 1) ? "disabled" : ""?>">
-        <?=($page==null || $page == 1) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}&page=$pagePrev' class='page-link'>"?> Previous <?=($page==null || $page == 1) ? "</span>" : "</a>"?>
+        <?=($page==null || $page == 1) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}&page=$pagePrev' class='page-link'>"?> Précédent <?=($page==null || $page == 1) ? "</span>" : "</a>"?>
     </li>
     <?php
         for ($i=1; $i <= $nbPages; $i++) { 
@@ -93,7 +93,7 @@ $pageSuiv = $page+1;
         }
     ?>
     <li class="page-item <?=($page==$nbPages) ? "disabled" : ""?>">
-      <?=($page==$nbPages) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}&page=$pageSuiv' class='page-link'>"?> Next <?=($page==$nbPages) ? "</span>" : "</a>"?>
+      <?=($page==$nbPages) ? "<span class='page-link'>" : "<a href='index.php?ctrl=forum&action=listPostsByTopic&id={$topic->getId()}&page=$pageSuiv' class='page-link'>"?> Suivant <?=($page==$nbPages) ? "</span>" : "</a>"?>
     </li>
   </ul>
 </nav>
