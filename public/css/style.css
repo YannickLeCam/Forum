@@ -227,6 +227,36 @@ form.postMessage{
 #forum .postContainer:first-child{
     margin-top: 0;
 }
+/*
+======================================================================
+New Topic
+======================================================================
+*/
+
+#formNewTopic{
+    padding: 0 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titleNewTopic{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titleNewTopic h1{
+    color: var(--main);
+}
+
+#formNewTopic .form-floating{
+    width: 100%;
+}
+#formNewTopic .tox-tinymce{
+    width: 100%;
+}
 
 /*
 ======================================================================
