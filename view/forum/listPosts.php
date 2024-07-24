@@ -4,8 +4,7 @@ $topic= $result['data']['topic'];
 $posts= $result['data']['posts'];
 $nbPages= $result['data']['nbPages'];
 $page= $result['data']['page'];
-var_dump($nbPages,$page);
-$user = SESSION::getUser();
+$user = $result['data']['user'];
 $idTopic = $topic->getId();
 if ($page == null) {
     $page=1;
@@ -13,7 +12,7 @@ if ($page == null) {
 
 ?>
 <div id="menuPostList">
-    <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a>
+    <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="transparentButton"><i class="fa-solid fa-arrow-left"></i></a>
     <?php
 if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) {
     if ($topic->getClosed() == 0) {
@@ -104,6 +103,7 @@ $pageSuiv = $page+1;
 
 
 
+
 <?php
     if ($topic->getClosed()==0) {
         echo <<<HTML
@@ -116,6 +116,7 @@ $pageSuiv = $page+1;
 HTML;
     }
 ?>
+
 
 
 <script src="./public/js/editPosts.js"></script>

@@ -73,7 +73,6 @@ class TopicManager extends Manager{
             "id"=>$id
         ];
         $select = DAO::select($sql,$params,false);
-        var_dump($select['nbPosts']);
         return $select['nbPosts'];
     }
     

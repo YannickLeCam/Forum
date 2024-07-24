@@ -23,6 +23,22 @@ body{
     background-color: #e6e6e6;
     background-color: var(--main);
 }
+.transparentButton{
+    background-color: transparent;
+    border: none;
+    color: var(--main); /* Couleur du texte */
+    font-size: xx-large; /* Taille du texte */
+    cursor: pointer;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 12px;
+}
+.transparentButton:hover{
+    color: var(--secondary);
+    transform: scale(1.1);
+    transition: 0.3s;
+}
 
 #wrapper{
     height: 300px; /* Ajustez la hauteur selon vos besoins */
@@ -47,6 +63,12 @@ body{
     margin: 20rem 5rem 3rem;
     border-radius: 12px;
 }
+
+/*
+======================================================================
+PostList
+======================================================================
+*/
 .postContainer{
     display: flex;
     position: relative;
@@ -82,7 +104,7 @@ body{
 #menuPostList{
     display: flex;
     justify-content: space-between;
-    margin: 3% 3%;
+    padding: 1% 1%;
     margin-top: 9vh;
 }
 
@@ -197,6 +219,9 @@ Table
 */
 
 
+
+
+
 table a {
     text-decoration: none;
 }
@@ -210,7 +235,7 @@ table{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2% 2%;
+    padding: 3% 2%;
 }
 
 thead td {
@@ -228,6 +253,10 @@ tbody td {
     border:1px lightgrey solid;
     border-bottom: 1px black solid;
     text-align: center;
+}
+
+tbody tr {
+    position: relative;
 }
 
 tbody tr:last-child td{
@@ -273,4 +302,27 @@ Topics List
     display: flex;
     justify-content: space-between;
     padding: 1% 2%;
+}
+
+.deleteTopic{
+    height: 100%;
+    text-align: center;
+    color: rgb(247, 117, 117);
+    font-size: larger;
+}
+.deleteTopic:hover{
+    color: rgb(247, 91, 91);
+    transform: scale(1);
+}
+
+.addTopic{
+    text-decoration: none;
+    color: green;
+    font-size: xx-large;
+    transition: 0.3s;
+}
+
+.addTopic:hover{
+    color: var(--secondary);
+    transition: 0.3s;
 }

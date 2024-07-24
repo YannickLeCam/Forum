@@ -62,10 +62,15 @@ class ForumController extends AbstractController implements ControllerInterface{
         $category = $categoryManager->findOneById($id);
         $topics = $topicManager->findTopicsByCategory($id);
 
-        $topicsWithLastPost = [];
-        foreach ($topics as $key => $topic) {
-            $topicsWithLastPost[$key] = [$topic,$topicManager->lastPost($topic->getId())];
+        if ($topics) {
+            $topicsWithLastPost = [];
+            foreach ($topics as $key => $topic) {
+                $topicsWithLastPost[$key] = [$topic,$topicManager->lastPost($topic->getId())];
+            }
+        }else {
+            $topicsWithLastPost = null;
         }
+
 
         if (isset($_POST['submitDeleteTopic'])) {
             $idTopic = filter_input(INPUT_GET,'idTopic',FILTER_VALIDATE_INT);
@@ -152,7 +157,6 @@ class ForumController extends AbstractController implements ControllerInterface{
             SET closed = :closed
             WHERE id_topic = :id;
             ";
-            var_dump($topic);
             if ($topic->getClosed()==0) {
 
                 $params = [
@@ -176,7 +180,6 @@ class ForumController extends AbstractController implements ControllerInterface{
         }
 
         if (isset($_POST['deletePost'])) {
-            var_dump($_GET);
             $idPost = filter_input(INPUT_GET,'idPost',FILTER_VALIDATE_INT);
             if ($idPost) {
                 $post=$postManager->findOneById($idPost);
@@ -217,7 +220,8 @@ class ForumController extends AbstractController implements ControllerInterface{
                 "topic" => $topic,
                 "posts" => $posts,
                 "page" => $page,
-                "nbPages" => $nbPages
+                "nbPages" => $nbPages,
+                'user' => $user
             ]
         ];
     }
