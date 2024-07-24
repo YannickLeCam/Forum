@@ -43,27 +43,47 @@ foreach($posts as $post ){ ?>
     <div class="postContainer">
         <div class="postUserInfo">
             <?php 
-            if (SESSION::isAdmin()) {
-                echo " <a class'username' href='./index.php?ctrl=security&action=userDetail&id={$post->getUser()->getId()}'>{$post->getUser()} </a>";
-            }
-            else {
-                echo "<span class='username'>{$post->getUser()} </span>";
+            if ($post->getUser()==null) {
+                echo "<span class='username'>Deleted User </span>";
+            }else {
+                if (SESSION::isAdmin()) {
+                    echo " <a class'username' href='./index.php?ctrl=security&action=userDetail&id={$post->getUser()->getId()}'>{$post->getUser()} </a>";
+                }
+                else {
+                    echo "<span class='username'>{$post->getUser()} </span>";
+                }
             }
             ?>
             <?=" - ".$post->getCreationDate()?>
             <?php
-            if ($user->getId()==$post->getUser()->getId() || SESSION::isAdmin()) {
-                $postId = $post->getId();
-                $topicId = $topic->getId();
-                echo <<<HTML
-                <div class="menuButtonUser">
-                    <form action="./index.php?ctrl=forum&action=listPostsByTopic&id=$topicId&idPost=$postId" method="post">
-                        <button type="submit" name="deletePost" class="transparentButton deletePostButton"> <i class='fa-solid fa-trash'></i> </button>
-                    </form>
-                    <button class="transparentButton editPostButton" data-post-id="$postId" data-topic-id="$topicId"><i class="fa-solid fa-pen-to-square" ></i></button>
-                </div>
+            if ($post->getUser()==null) {
+                if (SESSION::isAdmin()) {
+                    $postId = $post->getId();
+                    $topicId = $topic->getId();
+                    echo <<<HTML
+                    <div class="menuButtonUser">
+                        <form action="./index.php?ctrl=forum&action=listPostsByTopic&id=$topicId&idPost=$postId" method="post">
+                            <button type="submit" name="deletePost" class="transparentButton deletePostButton"> <i class='fa-solid fa-trash'></i> </button>
+                        </form>
+                        <button class="transparentButton editPostButton" data-post-id="$postId" data-topic-id="$topicId"><i class="fa-solid fa-pen-to-square" ></i></button>
+                    </div>
 HTML;
+                }
+            }else {
+                if ($user->getId()==$post->getUser()->getId() || SESSION::isAdmin()) {
+                    $postId = $post->getId();
+                    $topicId = $topic->getId();
+                    echo <<<HTML
+                    <div class="menuButtonUser">
+                        <form action="./index.php?ctrl=forum&action=listPostsByTopic&id=$topicId&idPost=$postId" method="post">
+                            <button type="submit" name="deletePost" class="transparentButton deletePostButton"> <i class='fa-solid fa-trash'></i> </button>
+                        </form>
+                        <button class="transparentButton editPostButton" data-post-id="$postId" data-topic-id="$topicId"><i class="fa-solid fa-pen-to-square" ></i></button>
+                    </div>
+HTML;
+                }
             }
+
             ?>
         </div>
         <div class="postMessage">

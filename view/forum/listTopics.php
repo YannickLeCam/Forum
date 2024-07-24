@@ -31,8 +31,8 @@
                 <td>
                     <p><a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"> <span class="titleTopic"> <?= $topic ?> </span> </a>
                 </td>
-                <td><?= $topic->getUser() ?> <br> <?=$topic->getCreationDate()?></td>
-                <td><?=$lastPost->getUser()?> <br><?=$lastPost->getCreationDate()?> </td>
+                <td><?= $topic->getUser() ? $topic->getUser() : "Deleted User" ?> <br> <?=$topic->getCreationDate()?></td>
+                <td><?=$lastPost->getUser() ? $lastPost->getUser() : "Deleted User"?> <br><?=$lastPost->getCreationDate()?> </td>
                 <td>                    
                     <?php
                         if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) { ?>
