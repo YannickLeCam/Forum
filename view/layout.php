@@ -18,8 +18,26 @@ use APP\Session;
 <body>
     <div id="wrapper"> 
         <div id="mainpage">
-            <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3>
-            <h3 class="message" style="color: green"><?= App\Session::getFlash("success") ?></h3>
+            <?php
+            $msg = App\Session::getFlash("success");
+            if ($msg) {
+            ?>
+            <div class="alert alert-success alert-dismissible fade show message" role="alert">
+                <h3 class="message"><?= $msg ?></h3>
+            </div>
+            <?php 
+            }
+            ?>
+            <?php
+            $msg = App\Session::getFlash("error");
+            if ($msg) {
+            ?>
+            <div class="alert alert-danger alert-dismissible fade show message" role="alert">
+                <h3 class="message"><?= $msg ?></h3>
+            </div>
+            <?php 
+            }
+            ?>
             <header>
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="container-fluid">

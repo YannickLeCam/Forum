@@ -17,9 +17,18 @@ class TopicManager extends Manager{
     // récupérer tous les topics d'une catégorie spécifique (par son id)
     public function findTopicsByCategory($id) {
 
-        $sql = "SELECT * 
-                FROM ".$this->tableName." t 
-                WHERE t.category_id = :id";
+        $sql ="
+            SELECT t.*
+            FROM topic t
+            JOIN post p ON t.id_topic = p.topic_id
+            WHERE t.category_id = :id
+            AND p.creationDate = (
+                SELECT MAX(p2.creationDate)
+                FROM post p2
+                WHERE p2.topic_id = t.id_topic
+            )
+            ORDER BY p.creationDate DESC;
+        ";
        
         // la requête renvoie plusieurs enregistrements --> getMultipleResults
         return  $this->getMultipleResults(

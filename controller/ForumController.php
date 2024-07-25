@@ -199,8 +199,7 @@ class ForumController extends AbstractController implements ControllerInterface{
                         $verify=$topicManager->delete($id);
                         if ($verify) {
                             Session::addFlash('success','Le topic et le post a été supprimé !');
-                            header('Location:./index.php?ctrl=forum&action=listTopicsByCategory&id='.$category);
-                            die;
+                            $this->redirectTo('forum','listPostsByTopic',$id);
                         }
                     }
 
