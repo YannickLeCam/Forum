@@ -470,12 +470,12 @@ Topics List
 
 .addTopic{
     text-decoration: none;
-    color: green;
+    color: rgb(10, 88, 10);
     font-size: xx-large;
     transition: 0.3s;
 }
 
 .addTopic:hover{
-    color: var(--secondary);
+    color: green;
     transition: 0.3s;
 }

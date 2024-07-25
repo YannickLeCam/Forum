@@ -240,6 +240,7 @@ class SecurityController extends AbstractController{
     }
 
     public function userDetail(int $id){
+        $user= SESSION::getUser();
         if (!SESSION::isAdmin()) {
             SESSION::addFlash('error','Vous n\'avez pas accès a cette page . . .');
             return [
@@ -323,7 +324,8 @@ class SecurityController extends AbstractController{
             "data" => [
                 "userSelected" => $userSelected,
                 "userSelectedTopics" => $userSelectedTopics,
-                "userSelectedPosts" => $userSelectedPosts
+                "userSelectedPosts" => $userSelectedPosts,
+                "user" => $user
             ]
         ];
     }

@@ -2,11 +2,14 @@
 $userSelected= $result['data']['userSelected'];
 $userSelectedTopics = $result['data']['userSelectedTopics'];
 $userSelectedPosts = $result['data']['userSelectedPosts'];
+$user = $result['data']['user'];
 
 var_dump($userSelected);
 var_dump($userSelectedTopics);
 var_dump($userSelectedPosts);
 
+
+use App\Session;
 
 
 ?>
@@ -54,11 +57,48 @@ HTML;
 
 <h2>Les topics</h2>
 
-<?php
-foreach ($userSelectedTopics as $topic) {
-    var_dump($topic);
-}
-?>
+<div id="tableTopics">
+    <table>
+        <thead>
+            <td>Sujet</td>
+            <td>Auteur <br> Date de creation</td>
+            <td>Supprimer</td>
+        </thead>
+        <tbody>
+        <?php
+        if ($userSelectedTopics) {
+            foreach($userSelectedTopics as $userSelectedTopic ){ 
+                ?>
+            <tr>
+                <td>
+                    <p><a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $userSelectedTopic->getId() ?>"> <span class="titleTopic"> <?= $userSelectedTopic ?> </span> </a>
+                </td>
+                <td><?= $userSelectedTopic->getUser() ? $userSelectedTopic->getUser() : "Deleted User" ?> <br> <?=$userSelectedTopic->getCreationDate()?></td>
+                <td>                    
+                    <?php
+                        if ($userSelectedTopic->getUser()==null) { 
+                            if (SESSION::isAdmin()) { 
+                        ?>
+                            <form action="./index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$userSelectedTopic->getCategory()?>&idTopic=<?=$userSelectedTopic->getId()?>" method="post">
+                                <button type="submit" name="deleteTopic" class="transparentButton deleteTopic"><i class="fa-solid fa-trash"></i></button>
+                            </form>    
+                        <?php }
+                            ?>
+                        <?php } else {
+                            if ($user->getId()=== $userSelectedTopic->getUser()->getId() || SESSION::isAdmin()) { 
+                                ?>
+                                        <form action="./index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$userSelectedTopic->getCategory()?>&idTopic=<?=$userSelectedTopic->getId()?>" method="post">
+                                            <button type="submit" name="deleteTopic" class="transparentButton deleteTopic"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                <?php } 
+                        }
+                    ?>
+                </td>
+            </tr>
+        <?php }} ?>
+        </tbody>
+    </table>
+</div>
 
 <h2> Les posts</h2>
 
