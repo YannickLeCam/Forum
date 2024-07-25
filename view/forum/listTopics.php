@@ -35,11 +35,22 @@
                 <td><?=$lastPost->getUser() ? $lastPost->getUser() : "Deleted User"?> <br><?=$lastPost->getCreationDate()?> </td>
                 <td>                    
                     <?php
-                        if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) { ?>
+                        if ($topic->getUser()==null) { 
+                            if (SESSION::isAdmin()) { 
+                        ?>
                             <form action="./index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$category->getId()?>&idTopic=<?=$topic->getId()?>" method="post">
                                 <button type="submit" name="deleteTopic" class="transparentButton deleteTopic"><i class="fa-solid fa-trash"></i></button>
-                            </form>
-                    <?php }
+                            </form>    
+                        <?php }
+                            ?>
+                        <?php } else {
+                            if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) { 
+                                ?>
+                                        <form action="./index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$category->getId()?>&idTopic=<?=$topic->getId()?>" method="post">
+                                            <button type="submit" name="deleteTopic" class="transparentButton deleteTopic"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                <?php } 
+                        }
                     ?>
                 </td>
             </tr>

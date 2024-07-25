@@ -15,20 +15,39 @@ if ($page == null) {
 
     <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?=$topic->getCategory()->getId()?>" class="transparentButton"><i class="fa-solid fa-arrow-left"></i></a>
     <?php
-if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) {
-    if ($topic->getClosed() == 0) {
-        echo <<<HTML
-        <form action="index.php?ctrl=forum&action=listPostsByTopic&id=$idTopic" method="post">
-            <input type="submit" name="closeTopic" class="btn btn-warning" value="Fermer le topic">
-        </form>
-    HTML;
-    }if ($topic->getClosed() == 1) {
-        echo <<<HTML
-        <form action="index.php?ctrl=forum&action=listPostsByTopic&id=$idTopic" method="post">
-            <input type="submit" name="closeTopic" class="btn btn-success" value="Réouvrir le topic">
-        </form>
-    HTML;
+if ($topic->getUser()==null) {
+    if (SESSION::isAdmin()) {
+        if ($topic->getClosed() == 0) {
+            echo <<<HTML
+            <form action="index.php?ctrl=forum&action=listPostsByTopic&id=$idTopic" method="post">
+                <input type="submit" name="closeTopic" class="btn btn-warning" value="Fermer le topic">
+            </form>
+        HTML;
+        }if ($topic->getClosed() == 1) {
+            echo <<<HTML
+            <form action="index.php?ctrl=forum&action=listPostsByTopic&id=$idTopic" method="post">
+                <input type="submit" name="closeTopic" class="btn btn-success" value="Réouvrir le topic">
+            </form>
+        HTML;
+        }
     }
+}else {
+    if ($user->getId()=== $topic->getUser()->getId() || SESSION::isAdmin()) {
+        if ($topic->getClosed() == 0) {
+            echo <<<HTML
+            <form action="index.php?ctrl=forum&action=listPostsByTopic&id=$idTopic" method="post">
+                <input type="submit" name="closeTopic" class="btn btn-warning" value="Fermer le topic">
+            </form>
+        HTML;
+        }if ($topic->getClosed() == 1) {
+            echo <<<HTML
+            <form action="index.php?ctrl=forum&action=listPostsByTopic&id=$idTopic" method="post">
+                <input type="submit" name="closeTopic" class="btn btn-success" value="Réouvrir le topic">
+            </form>
+        HTML;
+        }
+    }
+   
 }
 ?>
 

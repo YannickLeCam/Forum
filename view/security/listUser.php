@@ -15,7 +15,7 @@ var_dump($listUser);
         foreach ($listUser as $key => $userListed) {
             if ($userListed->getId()!=$user->getId()) {
                 $color = ($userListed->getRole() == 'ADMIN' ? 'danger' : 'primary');
-                $userListed->getBanned() ? $banned ="$userListed->getBanned()": $banned="Le joueur n'a jamais été bannie";
+                $userListed->getBanned() ? $banned = "A été bannit jusqu'au ".$userListed->getBanned(): $banned="Le joueur n'a jamais été bannie";
                 echo <<<HTML
                 <div class="card border-$color mb-3" style="max-width: 18rem;">
                     <div class="card-header">$userListed</div>

@@ -28,4 +28,8 @@ $user= $result['data']['user'];
     <input type="submit" name="submitEditPassword" class="btn btn-primary" value="Modifier" >
 </form>
 
+<form action="./index.php?ctrl=security&action=profile" method="post">
+    <input type="submit" class="btn btn-danger" id='deleteAccountButton' name="deleteAccount" value="Supprimer le compte">
+</form>
+
 

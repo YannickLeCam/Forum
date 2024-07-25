@@ -68,6 +68,7 @@ class SecurityController extends AbstractController{
                     $idNewUser= $userManager->insertUser($data);
                     if ($idNewUser) {
                         $session->addFlash("success","Votre compte a bien été enregistré !");
+                        $this->redirectTo('security','login');
                     }else {
                         $session->addFlash("error","Il semble y avoir un probleme dans la BDD $idNewUser");
                     }
@@ -98,8 +99,6 @@ class SecurityController extends AbstractController{
         
                     $userManager = new UserManager();
                     $user = $userManager->getUserByEmail($data['email']);
-                    var_dump($user->getPassword());
-                    var_dump(password_verify($data['password'],$user->getPassword() ));
                     if ($user) {
                         $now = new \DateTime();
                         $bannedUntil = new \DateTime($user->getBanned());
@@ -143,11 +142,10 @@ class SecurityController extends AbstractController{
     public function profile(){
         $user= SESSION::getUser();
         if (!$user) {
-            return [
-                "view" => VIEW_DIR."home.php",
-                "meta_description" => "home"
-            ];
+            
+            $this->redirectTo("security","login");
         }
+
         if (isset($_POST['submitEditNickName'])) {
 
             $newNickName = filter_input(INPUT_POST,'nickName',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -170,6 +168,7 @@ class SecurityController extends AbstractController{
                 SESSION::addFlash('error','Il semblerait manquer un pseudo . . .');
             }
         }
+
         if (isset($_POST['submitEditPassword'])) {
             $password =  filter_input(INPUT_POST,'password',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $passwordConfirm =  filter_input(INPUT_POST,'passwordConfirm',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -194,6 +193,17 @@ class SecurityController extends AbstractController{
                         SESSION::addFlash("error","L'insertion du mot de passe semble ne pas avoir fonctionné . . .");
                     }
                 }
+            }
+
+        }
+
+        if (isset($_POST['deleteAccount'])) {
+            $userManager = new UserManager();
+            if($userManager->delete($user->getId())){
+                SESSION::addFlash("success","Vous avez bien supprimer votre compte !");
+                $this->redirectTo("security","logout");
+            }else {
+                SESSION::addFlash("error","Il semble avoir un probleme avec la suppression");
             }
         }
 

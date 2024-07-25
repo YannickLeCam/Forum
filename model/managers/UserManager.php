@@ -94,14 +94,14 @@ class UserManager extends Manager{
 
     public function unbanUser($id){
         $sql = "
-        UPDATE user
-        SET banned = :banned
-        WHERE id_user = :id;
-    ";
-    $params=[
-        "banned"=>null,
-        "id"=>$id
-    ];
+            UPDATE user
+            SET banned = :banned
+            WHERE id_user = :id;
+        ";
+        $params=[
+            "banned"=>null,
+            "id"=>$id
+        ];
     
     return DAO::update($sql,$params);
     }
