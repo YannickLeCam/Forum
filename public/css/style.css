@@ -111,6 +111,30 @@ a.username{
 }
 
 
+#confirmationBox {
+    display: none;
+    position: absolute;
+    background-color: var(--mainLight);
+    padding: 20px;
+    z-index: 1000;
+    border-radius: 12px;
+}
+
+#confirmationBox button{
+    background-color: var(--main);
+    color: white;
+    width: 40%;
+    border-radius: 12px;
+    transition: 0.3s;
+    border: none;
+}
+
+#confirmationBox button:hover{
+    background-color: var(--secondary);
+    transition: 0.3s;
+}
+
+
 .menuButtonUser{
     position: absolute;
     right: 2%;

@@ -84,7 +84,6 @@ foreach($posts as $post ){ ?>
                         <form action="./index.php?ctrl=forum&action=listPostsByTopic&id=$topicId&idPost=$postId" method="post">
                             <button type="submit" name="deletePost" class="transparentButton deletePostButton"> <i class='fa-solid fa-trash'></i> </button>
                         </form>
-                        <button class="transparentButton editPostButton" data-post-id="$postId" data-topic-id="$topicId"><i class="fa-solid fa-pen-to-square" ></i></button>
                     </div>
 HTML;
                 }
@@ -97,10 +96,12 @@ HTML;
                         <form action="./index.php?ctrl=forum&action=listPostsByTopic&id=$topicId&idPost=$postId" method="post">
                             <button type="submit" name="deletePost" class="transparentButton deletePostButton"> <i class='fa-solid fa-trash'></i> </button>
                         </form>
-                        <button class="transparentButton editPostButton" data-post-id="$postId" data-topic-id="$topicId"><i class="fa-solid fa-pen-to-square" ></i></button>
-                    </div>
 HTML;
                 }
+                if ($user->getId()==$post->getUser()->getId()) {
+                    echo "<button class='transparentButton editPostButton' data-post-id='$postId' data-topic-id='$topicId'><i class='fa-solid fa-pen-to-square' ></i></button>";
+                }
+                echo '</div>';
             }
 
             ?>
@@ -164,7 +165,7 @@ HTML;
 
 <script src="./public/js/editPosts.js"></script>
 
-
+<script src="./public/js/deleteButtonPosts.js"></script>
 
 
 
@@ -177,3 +178,4 @@ HTML;
         document.getElementById('mytextarea').value = content;
     }
 </script>
+
