@@ -4,22 +4,13 @@ $userSelectedTopics = $result['data']['userSelectedTopics'];
 $userSelectedPosts = $result['data']['userSelectedPosts'];
 $user = $result['data']['user'];
 
-var_dump($userSelected);
-var_dump($userSelectedTopics);
-var_dump($userSelectedPosts);
-
-
 use App\Session;
-
 
 ?>
 
-<a href="./index.php?ctrl=security&action=listuser">← Retour</a>
+<a href="./index.php?ctrl=security&action=listuser"class="transparentButton"><i class="fa-solid fa-arrow-left"></i></a>
 
 <h2>Informations</h2>
-
-
-
 <?php
 
 if ($userSelected->getRole()=="USER") {
@@ -31,7 +22,9 @@ if ($userSelected->getRole()=="USER") {
 HTML;
 }
 
-if ($userSelected->getBanned()==null) {
+$now = new \DateTime();
+$bannedUntil = new \DateTime($userSelected->getBanned());
+if ($userSelected->getBanned() == null || $now > $bannedUntil) {
     echo <<<HTML
     <form action="./index.php?ctrl=security&action=userDetail&id=1" method="post">
         <input type="number" name="number" class="" id="">
@@ -46,6 +39,7 @@ if ($userSelected->getBanned()==null) {
     </form>
 HTML;
 }else {
+
     echo <<<HTML
     <form action="./index.php?ctrl=security&action=userDetail&id=1" method="post">
         <input type="submit" name="submitButtonUnban" class="btn btn-success" value="Debannir l'utilisateur">
@@ -102,8 +96,60 @@ HTML;
 
 <h2> Les posts</h2>
 
+<div id="postsList">
 <?php
-foreach ($userSelectedPosts as $post) {
-    var_dump($post);
-}
-?>
+foreach($userSelectedPosts as $userSelectedPost){ ?>
+    <div class="postContainer">
+        <div class="postUserInfo">
+            <?php 
+            if ($userSelectedPost->getUser()==null) {
+                echo "<span class='username'>Deleted User </span>";
+            }else {
+                if (SESSION::isAdmin()) {
+                    echo " <a class'username' href='./index.php?ctrl=security&action=userDetail&id={$userSelectedPost->getUser()->getId()}'>{$userSelectedPost->getUser()} </a>";
+                }
+                else {
+                    echo "<span class='username'>{$userSelectedPost->getUser()} </span>";
+                }
+            }
+            ?>
+            <?=" - ".$userSelectedPost->getCreationDate()?>
+            <?php
+            if ($userSelectedPost->getUser()==null) {
+                if (SESSION::isAdmin()) {
+                    $userSelectedPostId = $userSelectedPost->getId();
+                    $topicId = $userSelectedPost->getTopic()->getId();
+                    echo <<<HTML
+                    <div class="menuButtonUser">
+                        <form action="./index.php?ctrl=forum&action=listPostsByTopic&id=$topicId&idPost=$userSelectedPostId" method="post">
+                            <button type="submit" name="deletePost" class="transparentButton deletePostButton"> <i class='fa-solid fa-trash'></i> </button>
+                        </form>
+                    </div>
+HTML;
+                }
+            }else {
+                if ($user->getId()==$userSelectedPost->getUser()->getId() || SESSION::isAdmin()) {
+                    $userSelectedPostId = $userSelectedPost->getId();
+                    $topicId = $userSelectedPost->getTopic()->getId();
+                    echo <<<HTML
+                    <div class="menuButtonUser">
+                        <form action="./index.php?ctrl=forum&action=listPostsByTopic&id=$topicId&idPost=$userSelectedPostId" method="post">
+                            <button type="submit" name="deletePost" class="transparentButton deletePostButton"> <i class='fa-solid fa-trash'></i> </button>
+                        </form>
+HTML;
+                }
+                if ($user->getId()==$userSelectedPost->getUser()->getId()) {
+                    echo "<button class='transparentButton editPostButton' data-post-id='$userSelectedPostId' data-topic-id='$topicId'><i class='fa-solid fa-pen-to-square' ></i></button>";
+                }
+                echo '</div>';
+            }
+
+            ?>
+        </div>
+        <div class="postMessage">
+            <?=html_entity_decode($userSelectedPost->getMessage())?>
+        </div>
+    </div>
+<?php }?>
+</div>
+

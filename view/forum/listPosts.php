@@ -112,12 +112,13 @@ HTML;
     </div>
 <?php }?>
 </div>
+
+
+
 <?php
 $pagePrev = $page-1;
 $pageSuiv = $page+1;
 ?>
-
-
 <nav aria-label="...">
   <ul class="pagination">
     <li class="page-item <?=($page==null || $page == 1) ? "disabled" : ""?>">
