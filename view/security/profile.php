@@ -32,4 +32,5 @@ $user= $result['data']['user'];
     <input type="submit" class="btn btn-danger" id='deleteAccountButton' name="deleteAccount" value="Supprimer le compte">
 </form>
 
+<script src="./public/js/deleteButtonAccount.js"></script>
 

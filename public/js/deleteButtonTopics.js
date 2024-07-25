@@ -12,7 +12,7 @@ for (let index = 0; index < deleteButtonsTopics.length; index++) {
         
         // Create the message
         const message = document.createElement('p');
-        message.textContent = 'Êtes-vous sûr de vouloir supprimer ?';
+        message.textContent = 'Êtes-vous sûr de vouloir supprimer le topic ?';
         confirmationBox.appendChild(message);
 
         // Create the confirm button
