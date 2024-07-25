@@ -1,7 +1,7 @@
-const deleteButtonsPost = document.getElementsByClassName('deletePostButton');
+const deleteButtonsTopics = document.getElementsByClassName('deleteTopic');
 
-for (let index = 0; index < deleteButtonsPost.length; index++) {
-    const element = deleteButtonsPost[index];
+for (let index = 0; index < deleteButtonsTopics.length; index++) {
+    const element = deleteButtonsTopics[index];
     element.addEventListener('click',function(event){
         event.preventDefault();
         
@@ -40,7 +40,7 @@ for (let index = 0; index < deleteButtonsPost.length; index++) {
             // Create and append the hidden input field
             const hiddenInput = document.createElement('input');
             hiddenInput.type = 'hidden';
-            hiddenInput.name = 'deletePost';
+            hiddenInput.name = 'deleteTopic';
             hiddenInput.value = 'true';
             myForm.appendChild(hiddenInput);
             myForm.submit();

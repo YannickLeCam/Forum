@@ -58,3 +58,5 @@
         </tbody>
     </table>
 </div>
+
+<script src="./public/js/deleteButtonTopics.js"></script>
