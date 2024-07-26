@@ -14,7 +14,7 @@
 }
 
 h1 {
-    color: rgb(0, 122, 156);
+    color: var(--main);
 }
 
 body{
@@ -511,3 +511,10 @@ Topics List
 .cardUserList .card-header{
     width: 100%;
 }
+
+@media screen and (max-width: 480px) {
+    #forum{
+        margin-left: 0;
+        margin-right: 0;
+    }
+  }

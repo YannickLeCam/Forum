@@ -8,7 +8,7 @@
 <div id="menuTopicsList">
     <a href="index.php?ctrl=forum&action=index" class="transparentButton"><i class="fa-solid fa-arrow-left"></i></a>
     <h2><?=$category?></h2>
-    <a href="index.php?ctrl=forum&action=newTopic&id=<?=$category->getId()?>" class="addTopic"><i class="fa-solid fa-circle-plus"> nouveau</i></a>
+    <a href="index.php?ctrl=forum&action=newTopic&id=<?=$category->getId()?>" class="addTopic"><i class="fa-solid fa-circle-plus">NEW</i></a>
 </div>
 
 <div id="tableTopics">
