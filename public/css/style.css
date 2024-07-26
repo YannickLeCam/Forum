@@ -479,3 +479,35 @@ Topics List
     color: green;
     transition: 0.3s;
 }
+/*
+======================================================================
+Topics List
+======================================================================
+*/
+#cardsList{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    width: 100%;
+    justify-items: center;
+}
+
+#cardsList .btn {
+    background-color: var(--secondary) !important;
+    color: var(--main);
+    font-weight: 700;
+    width: 80%;
+}
+
+#cardsList .btn:hover {
+    background-color: var(--secondaryLight) !important;
+}
+
+.cardUserList{
+    border-width: 3px;
+    display: flex;
+    align-items: center;
+}
+
+.cardUserList .card-header{
+    width: 100%;
+}
