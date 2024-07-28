@@ -78,7 +78,58 @@ body{
     margin: 20rem 5rem 3rem;
     border-radius: 12px;
 }
+/*
+======================================================================
+Register
+======================================================================
+*/
 
+
+#registerForm {
+    padding: 5% 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#registerForm .btn {
+    width: 50%;
+    background-color: var(--main);
+    border: none;
+    height: 5vh;
+    transition: 0.5s;
+}
+
+#registerForm .btn:hover{
+    background-color: var(--secondary);
+    transition: 0.5s;
+}
+
+#registerForm .error-message {
+    color: white;
+    background-color: rgb(250, 93, 93);
+    font-size: 0.9em;
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-150%);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+
+#registerForm .input-error {
+    border-color: red;
+    border-width: 2px;
+}
+
+
+#registerForm .form-floating {
+    position: relative;
+    width: 100%;
+}
 
 /*
 ======================================================================
