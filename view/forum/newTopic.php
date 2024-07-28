@@ -6,7 +6,15 @@
 
 <script>
     tinymce.init({
-        selector: 'textarea#default-editor'
+        selector: 'textarea#default-editor',
+        setup: function (editor) {
+                editor.on('focus', function () {
+                    editor.getContainer().closest('.tinyMCE').classList.add('focused');
+                });
+                editor.on('blur', function () {
+                    editor.getContainer().closest('.tinyMCE').classList.remove('focused');
+                });
+        }
     });
 </script>
 <div class="titleNewTopic">
@@ -21,8 +29,11 @@
         <label for="floatingInputPseudo">Titre du topic</label>
     </div>
 
-    <textarea id="default-editor" name="message" placeholder="Entrer votre message ici . . .">
-    </textarea>
+    <div class="tinyMCE">
+        <textarea id="default-editor" name="message" placeholder="Entrer votre message ici . . .">
+        </textarea>
+    </div>
+
 
     <input type="submit" class="submitMessage" name="submitNewTopic" value="Publier">
 </form>
