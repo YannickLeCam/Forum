@@ -164,6 +164,10 @@ Login
 PostList
 ======================================================================
 */
+
+#postsList{
+    padding: 0 0 3% 0;
+}
 .postContainer{
     display: flex;
     flex-direction: column;
@@ -591,6 +595,7 @@ Topics List
     color: var(--main);
     font-weight: 700;
     width: 80%;
+    margin-bottom: 5%;
 }
 
 #cardsList .btn:hover {
@@ -607,9 +612,32 @@ Topics List
     width: 100%;
 }
 
+@media screen and (min-width: 1400px) {
+    #cardsList{
+        grid-template-columns: repeat(4,1fr);
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    #cardsList{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #cardsList{
+        grid-template-columns: repeat(1,1fr);
+    }
+}
+
 @media screen and (max-width: 480px) {
     #forum{
         margin-left: 0;
         margin-right: 0;
     }
-  }
+    #cardsList{
+        grid-template-columns: repeat(1,1fr);
+
+    }
+}
+

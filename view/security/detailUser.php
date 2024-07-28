@@ -60,6 +60,7 @@ HTML;
         if ($userSelectedTopics) { ?>
             <table>
                 <thead>
+                    <td>Catégorie</td>
                     <td>Sujet</td>
                     <td>Auteur <br> Date de creation</td>
                     <td>Supprimer</td>
@@ -69,6 +70,9 @@ HTML;
             foreach($userSelectedTopics as $userSelectedTopic ){ 
                 ?>
             <tr>
+                <td>
+                    <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $userSelectedTopic->getCategory()->getId() ?>"><span class="titleTopic"> <?= $userSelectedTopic->getCategory() ?> </span> </a>
+                </td>
                 <td>
                     <p><a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $userSelectedTopic->getId() ?>"> <span class="titleTopic"> <?= $userSelectedTopic ?> </span> </a>
                 </td>
@@ -94,9 +98,10 @@ HTML;
                     ?>
                         </td>
                     </tr>
+                <?php } ?>
                     </tbody>
                 </table>
-        <?php }}else {
+        <?php }else {
             echo "L'utilisateur n'a pas créé de topic !";
         } ?>
 
